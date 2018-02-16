@@ -1,0 +1,157 @@
+package com.training.view.auswertung;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import com.training.db.service.Service;
+import com.training.model.Abteilung;
+import com.training.model.Anlage;
+import com.training.model.Mitarbeiter;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
+
+public class MitarbeiterMitAnlagenSchulungOverviewController {
+
+	@FXML
+	private ResourceBundle resources;
+
+	@FXML
+	private TableView<Mitarbeiter> table;
+	@FXML
+	private TableColumn<Mitarbeiter, String> nachnameColumn;
+	@FXML
+	private TableColumn<Mitarbeiter, String> vornameColumn;
+	@FXML
+	private TableColumn<Mitarbeiter, String> taetigkeitColumn;
+	@FXML
+	private TableColumn<Mitarbeiter, String> telephoneColumn;
+	@FXML
+	private TableColumn<Mitarbeiter, Abteilung> abteilungColumn;
+	@FXML
+	private TableColumn<Mitarbeiter, Abteilung> standortColumn;
+
+	@FXML
+	public ComboBox<Anlage> anlageComboBox;
+
+	private Stage dialogStage;
+
+	@FXML
+	private void initialize() {
+
+		nachnameColumn.setCellValueFactory(new PropertyValueFactory<Mitarbeiter, String>("nachname"));
+		vornameColumn.setCellValueFactory(new PropertyValueFactory<Mitarbeiter, String>("vorname"));
+		taetigkeitColumn.setCellValueFactory(new PropertyValueFactory<Mitarbeiter, String>("taetigkeit"));
+		telephoneColumn.setCellValueFactory(new PropertyValueFactory<Mitarbeiter, String>("telephone"));
+
+		ObservableList<Anlage> standorte = FXCollections
+				.observableArrayList(Service.getInstance().getAnlageService().findAll());
+		anlageComboBox.setItems(standorte);
+		anlageComboBox.setConverter(new StringConverter<Anlage>() {
+
+			@Override
+			public Anlage fromString(String string) {
+				return null;
+			}
+
+			@Override
+			public String toString(Anlage object) {
+				return object.getName();
+			}
+		});
+
+		abteilungColumn.setCellValueFactory(new PropertyValueFactory<Mitarbeiter, Abteilung>("abteilung"));
+		abteilungColumn.setCellFactory(column -> {
+			return new TableCell<Mitarbeiter, Abteilung>() {
+
+				@Override
+				protected void updateItem(Abteilung item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						setText(item.getName());
+					}
+				}
+
+			};
+
+		});
+
+		standortColumn.setCellValueFactory(new PropertyValueFactory<Mitarbeiter, Abteilung>("abteilung"));
+		standortColumn.setCellFactory(column -> {
+			return new TableCell<Mitarbeiter, Abteilung>() {
+
+				@Override
+				protected void updateItem(Abteilung item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						setText(item.getStandort().getName());
+					}
+				}
+
+			};
+
+		});
+
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+	}
+
+	public void setData() {
+
+		ObservableList<Mitarbeiter> data = FXCollections.observableArrayList(generateData());
+		table.setItems(data);
+
+	}
+
+	private List<Mitarbeiter> generateData() {
+
+		List<Mitarbeiter> mitarbeiter = new ArrayList<>();
+
+		for (Anlage anl : Service.getInstance().getAnlageService().findAll()) {
+
+			if (anl.getId() == anlageComboBox.getSelectionModel().getSelectedItem().getId())
+				mitarbeiter = anl.getMitarbeiter();
+
+		}
+
+		return mitarbeiter;
+
+	}
+
+	@FXML
+	private void handleSearch() {
+		setData();
+	}
+
+	@FXML
+	private void handleRefresh(KeyEvent event) {
+
+		if (event.getCode() == KeyCode.F5) {
+			setData();
+		}
+
+	}
+
+	public void setDialogStage(Stage dialogStage) {
+		this.dialogStage = dialogStage;
+	}
+
+}

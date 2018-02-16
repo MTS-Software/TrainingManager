@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/trainingmanager</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<mapping class="com.training.model.Abteilung" />
+		<mapping class="com.training.model.Mitarbeiter" />
+		<mapping class="com.training.model.Standort" />
+		<mapping class="com.training.model.Firma" />
+		<mapping class="com.training.model.Level" />
+		<mapping class="com.training.model.Status" />
+		<mapping class="com.training.model.Schulung" />
+		<mapping class="com.training.model.Produkt" />
+		<mapping class="com.training.model.Anlage" />
+		<mapping class="com.training.model.Hersteller" />
+		<mapping class="com.training.model.Kategorie" />
+	</session-factory>
+</hibernate-configuration>

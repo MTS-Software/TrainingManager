@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.training.view.schulung.SchulungDataController">
+   <children>
+      <Label layoutX="10.0" layoutY="10.0" text="Schulung">
+         <graphic>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resource/icons/course48.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <VBox alignment="TOP_RIGHT" layoutX="446.0" layoutY="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <GridPane hgap="10.0" layoutX="10.0" layoutY="263.0" vgap="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
+         <columnConstraints>
+            <ColumnConstraints minWidth="31.0" />
+            <ColumnConstraints fillWidth="false" minWidth="219.0" />
+            <ColumnConstraints fillWidth="false" minWidth="10.0" />
+            <ColumnConstraints fillWidth="false" maxWidth="346.0" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Level" GridPane.rowIndex="1" />
+            <ComboBox fx:id="levelComboBox" prefWidth="200.0" promptText="auswählen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Mitarbeiter" GridPane.rowIndex="3" />
+            <ComboBox fx:id="mitarbeiterComboBox" prefWidth="200.0" promptText="auswählen" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Name" />
+            <TextField fx:id="nameField" prefHeight="31.0" prefWidth="349.0" promptText="Name der Schulung" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+            <DatePicker fx:id="beginDateField" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Ende" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <DatePicker fx:id="endDateField" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label text="Beginn" GridPane.rowIndex="4" />
+            <Label text="Anhänge" visible="false" GridPane.rowIndex="5" />
+            <Hyperlink fx:id="anhaengeLink" text="..." visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Produkt" GridPane.rowIndex="2" />
+            <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+               <children>
+                  <ComboBox fx:id="produktComboBox" prefWidth="300.0" promptText="auswählen" />
+                  <Button fx:id="noProduktSelectionButton" mnemonicParsing="false" onAction="#handleNoProduktSelection" text="Auswahl entfernen" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="537.0" layoutY="24.0" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label text="Status" />
+            <ComboBox fx:id="statusComboBox" prefWidth="200.0" promptText="auswählen" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

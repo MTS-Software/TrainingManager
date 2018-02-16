@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.training.view.anlagemitarbeiter.AnlageMitarbeiterDataController">
+   <children>
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label text="Anlagen - Mitarbeiter">
+               <graphic>
+                  <ImageView pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resource/icons/machine48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameLabel" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TableView fx:id="table" VBox.vgrow="SOMETIMES">
+              <columns>
+                <TableColumn fx:id="auswahlColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Auswahl" />
+                  <TableColumn fx:id="mitarbeiterColumn" minWidth="-Infinity" prefWidth="0.0" text="Mitarbeiter">
+                     <columns>
+                        <TableColumn fx:id="mitarbeiterNachnameColumn" minWidth="-Infinity" prefWidth="300.0" text="Nachname" />
+                        <TableColumn fx:id="mitarbeiterVornameColumn" minWidth="-Infinity" prefWidth="200.0" text="Vorname" />
+                        <TableColumn fx:id="mitarbeiterAbteilungColumn" minWidth="-Infinity" prefWidth="300.0" text="Abteilung" />
+                     </columns></TableColumn>
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

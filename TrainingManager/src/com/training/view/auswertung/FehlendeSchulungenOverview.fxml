@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane onKeyPressed="#handleRefresh" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.training.view.auswertung.FehlendeSchulungenOverviewController">
+   <children>
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label text="Fehlende Produkt - Schulungen">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleSearch">
+                     <graphic>
+                        <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resource/icons/search72.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+            </HBox>
+            <TableView fx:id="table" tableMenuButtonVisible="true" VBox.vgrow="SOMETIMES">
+               <columns>
+                  <TableColumn fx:id="kategorieColumn" minWidth="-Infinity" prefWidth="200.0" text="Kategorie" />
+                  <TableColumn fx:id="herstellerColumn" minWidth="-Infinity" prefWidth="200.0" text="Hersteller" />
+                  <TableColumn fx:id="produktColumn" minWidth="-Infinity" prefWidth="200.0" text="Produkt" />
+                  <TableColumn fx:id="anlageColumn" minWidth="-Infinity" prefWidth="200.0" text="Anlage" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
