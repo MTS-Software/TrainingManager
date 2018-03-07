@@ -25,7 +25,7 @@
                <children>
                   <Label text="Anlage" />
                   <ComboBox fx:id="anlageComboBox" prefHeight="31.0" prefWidth="363.0" promptText="Auswahl" />
-                  <Button mnemonicParsing="false" onAction="#handleSearch">
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch">
                      <graphic>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>

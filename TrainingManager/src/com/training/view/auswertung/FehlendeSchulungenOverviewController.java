@@ -4,27 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JLabel;
+
 import com.training.db.service.Service;
 import com.training.model.Anlage;
 import com.training.model.Hersteller;
 import com.training.model.Produkt;
+import com.training.util.Constants;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.Blend;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class FehlendeSchulungenOverviewController {
 
 	@FXML
-	private ResourceBundle resources;
+	private ResourceBundle resources = ResourceBundle.getBundle("language");
 
 	@FXML
 	private TableView<NoTraining> table;
@@ -39,6 +50,8 @@ public class FehlendeSchulungenOverviewController {
 
 	@FXML
 	private Label nameLabel;
+	@FXML
+	private Button searchButton;
 
 	private Stage dialogStage;
 
@@ -126,13 +139,62 @@ public class FehlendeSchulungenOverviewController {
 		});
 
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+		table.setPlaceholder(new Label("Keine Daten vorhanden"));
 	}
 
 	public void setData() {
 
-		ObservableList<NoTraining> data = FXCollections.observableArrayList(generateData());
+		ProgressIndicator progress = new ProgressIndicator();
+		progress.setMinWidth(Constants.PROGRESSINDICATOR_SIZE);
+		progress.setMinHeight(Constants.PROGRESSINDICATOR_SIZE);
+		progress.setMaxWidth(Constants.PROGRESSINDICATOR_SIZE);
+		progress.setMaxHeight(Constants.PROGRESSINDICATOR_SIZE);
 
-		table.setItems(data);
+		Label label = new Label();
+		label.setFont(new Font("Arial", 28));
+		// label.setText("Suche nach verbauten Produkten in Anlagen, an welchen es keine
+		// Schulung gibt ...");
+		label.setText(resources.getString("loading_data"));
+
+		VBox vBox = new VBox();
+		vBox.setSpacing(10);
+		vBox.setAlignment(Pos.CENTER);
+		vBox.getChildren().add(progress);
+		vBox.getChildren().add(label);
+
+		Thread th = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						table.setItems(null);
+						table.setPlaceholder(vBox);
+					}
+				});
+
+				ObservableList<NoTraining> data = FXCollections.observableArrayList(generateData());
+
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+
+						if (data.isEmpty())
+							table.setPlaceholder(null);
+						table.setItems(data);
+
+					}
+				});
+
+			}
+		});
+
+		th.start();
 
 	}
 

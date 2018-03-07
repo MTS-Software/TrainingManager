@@ -22,7 +22,7 @@
             </Label>
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleSearch">
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch">
                      <graphic>
                         <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                            <image>
