@@ -7,6 +7,7 @@ import com.training.Main;
 import com.training.db.service.Service;
 import com.training.model.Abteilung;
 import com.training.model.Mitarbeiter;
+import com.training.model.Standort;
 import com.training.util.Constants;
 import com.training.view.alert.DeleteYesNoAlert;
 
@@ -112,10 +113,10 @@ public class MitarbeiterOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
 
-		ObservableList<Mitarbeiter> data = FXCollections
-				.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilungWithStandort());
+		ObservableList<Mitarbeiter> data = FXCollections.observableArrayList(
+				Service.getInstance().getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung(standort));
 		table.setItems(data);
 
 	}
@@ -166,7 +167,8 @@ public class MitarbeiterOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilungWithStandort()));
+			table.setItems(FXCollections.observableArrayList(
+					Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilungWithStandort()));
 			table.refresh();
 			showDetails(null);
 		}

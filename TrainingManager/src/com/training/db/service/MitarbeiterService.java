@@ -8,6 +8,7 @@ import com.training.db.dao.MitarbeiterDAO;
 import com.training.db.dao.MitarbeiterJDBCDAO;
 import com.training.db.util.DAOException;
 import com.training.model.Mitarbeiter;
+import com.training.model.Standort;
 
 public class MitarbeiterService {
 
@@ -88,6 +89,25 @@ public class MitarbeiterService {
 		List<Mitarbeiter> data = null;
 		try {
 			data = mitarbeiterDAO.getAll();
+			for (Mitarbeiter mit : data) {
+
+				Hibernate.initialize(mit.getAbteilung().getStandort());
+
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			mitarbeiterDAO.closeCurrentSession();
+		}
+		return data;
+	}
+	
+	public List<Mitarbeiter> findMitarbeiterFromStandortWithAbteilung(String standort) {
+		mitarbeiterDAO.openCurrentSession();
+		List<Mitarbeiter> data = null;
+		try {
+			data = mitarbeiterDAO.getMitarbeiterFromStandort(standort)
 			for (Mitarbeiter mit : data) {
 
 				Hibernate.initialize(mit.getAbteilung().getStandort());

@@ -10,6 +10,7 @@ import org.apache.log4j.PropertyConfigurator;
 import com.training.db.service.Service;
 import com.training.db.util.HibernateUtil;
 import com.training.model.Abteilung;
+import com.training.model.Standort;
 import com.training.model.Status;
 import com.training.util.ApplicationProperties;
 import com.training.util.Constants;
@@ -193,7 +194,7 @@ public class Main extends Application {
 
 	}
 
-	public void showMitarbeiterOverviewDialog() {
+	public void showMitarbeiterOverviewDialog(String standort) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -214,7 +215,7 @@ public class Main extends Application {
 
 			MitarbeiterOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 

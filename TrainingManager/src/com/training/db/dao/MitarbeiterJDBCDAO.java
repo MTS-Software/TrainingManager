@@ -13,7 +13,9 @@ import org.hibernate.query.Query;
 
 import com.training.db.util.DAOException;
 import com.training.db.util.HibernateUtil;
+import com.training.model.Abteilung;
 import com.training.model.Mitarbeiter;
+import com.training.model.Standort;
 
 public class MitarbeiterJDBCDAO implements MitarbeiterDAO {
 
@@ -56,6 +58,35 @@ public class MitarbeiterJDBCDAO implements MitarbeiterDAO {
 
 			Query<Mitarbeiter> q = currentSession.createQuery(query);
 			List<Mitarbeiter> data = q.getResultList();
+
+			transaction.commit();
+
+			return data;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+
+		}
+		return null;
+
+	}
+
+	public List<Mitarbeiter> getMitarbeiterFromStandort(String standort) throws DAOException {
+		Transaction transaction = null;
+
+		try {
+
+			transaction = currentSession.beginTransaction();
+
+//			select * from mitarbeiter
+//			where mitarbeiter.abteilung_id = 
+//			(select abteilung.id
+//			from standort, abteilung
+//			where standort.name like "Test" and abteilung.standort_id = standort.id); 
 
 			transaction.commit();
 
