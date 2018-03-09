@@ -354,6 +354,7 @@ public class LayoutController implements Initializable {
 
 		try {
 			for (Status status : Service.getInstance().getStatusService().findAll()) {
+				
 				TreeItem<Object> itemSchulungStatus = new TreeItem<>(status);
 				itemSchulungStatus.setExpanded(false);
 				itemSchulungenStatus.getChildren().add(itemSchulungStatus);

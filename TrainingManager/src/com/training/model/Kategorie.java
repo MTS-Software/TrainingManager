@@ -53,7 +53,7 @@ public class Kategorie {
 		this.nameProperty().set(name);
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "kategorie", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "kategorie", cascade = CascadeType.ALL)
 	public List<Produkt> getProdukte() {
 		return produkte;
 	}

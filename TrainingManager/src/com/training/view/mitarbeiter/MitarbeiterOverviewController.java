@@ -114,9 +114,9 @@ public class MitarbeiterOverviewController {
 
 	public void setData() {
 
-		ObservableList<Mitarbeiter> abteilungenFX = FXCollections
-				.observableArrayList(Service.getInstance().getMitarbeiterService().findAll());
-		table.setItems(abteilungenFX);
+		ObservableList<Mitarbeiter> data = FXCollections
+				.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilungWithStandort());
+		table.setItems(data);
 
 	}
 
@@ -166,7 +166,7 @@ public class MitarbeiterOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getMitarbeiterService().findAll()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilungWithStandort()));
 			table.refresh();
 			showDetails(null);
 		}

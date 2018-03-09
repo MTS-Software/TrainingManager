@@ -70,15 +70,15 @@ public class StandortOverviewController {
 
 	public void setData() {
 
-		ObservableList<Standort> abteilungenFX = FXCollections
+		ObservableList<Standort> data = FXCollections
 				.observableArrayList(Service.getInstance().getStandortService().findAll());
-		table.setItems(abteilungenFX);
+		table.setItems(data);
 
 	}
 
-	private void showDetails(Standort abteilung) {
+	private void showDetails(Standort data) {
 
-		standortDataController.setData(abteilung);
+		standortDataController.setData(data);
 		standortDataController.setEditable(false);
 	}
 

@@ -67,7 +67,7 @@ public class Produkt {
 		return this.hersteller;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hersteller_id")
 	public Hersteller getHersteller() {
 		return this.herstellerProperty().get();
@@ -81,7 +81,7 @@ public class Produkt {
 		return this.kategorie;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kategorie_id")
 	public Kategorie getKategorie() {
 		return this.kategorieProperty().get();
@@ -91,7 +91,7 @@ public class Produkt {
 		this.kategorieProperty().set(kategorie);
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "produkt")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produkt")
 	public List<Schulung> getSchulungen() {
 		return schulungen;
 	}

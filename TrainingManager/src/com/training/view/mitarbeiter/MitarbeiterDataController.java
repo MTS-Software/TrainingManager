@@ -372,9 +372,9 @@ public class MitarbeiterDataController {
 
 			}
 
-			ObservableList<Abteilung> standorte = FXCollections
-					.observableArrayList(Service.getInstance().getAbteilungService().findAll());
-			abteilungComboBox.setItems(standorte);
+			ObservableList<Abteilung> abteilungen = FXCollections
+					.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenWithStandort());
+			abteilungComboBox.setItems(abteilungen);
 			abteilungComboBox.setConverter(new StringConverter<Abteilung>() {
 
 				@Override

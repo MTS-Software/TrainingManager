@@ -67,7 +67,7 @@ public class MitarbeiterJDBCDAO implements MitarbeiterDAO {
 				transaction.rollback();
 			}
 		} finally {
-			currentSession.close();
+
 		}
 		return null;
 

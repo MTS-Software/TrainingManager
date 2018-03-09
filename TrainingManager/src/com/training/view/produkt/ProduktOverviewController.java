@@ -116,7 +116,7 @@ public class ProduktOverviewController {
 	public void setData() {
 
 		ObservableList<Produkt> data;
-		data = FXCollections.observableArrayList(Service.getInstance().getProduktService().findAll());
+		data = FXCollections.observableArrayList(Service.getInstance().getProduktService().findProduktWithKategorieWithHersteller());
 
 		table.setItems(data);
 
@@ -168,7 +168,7 @@ public class ProduktOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getProduktService().findAll()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getProduktService().findProduktWithKategorieWithHersteller()));
 			table.refresh();
 			showDetails(null);
 		}

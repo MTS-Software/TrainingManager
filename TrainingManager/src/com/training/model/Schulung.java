@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -107,13 +108,11 @@ public class Schulung {
 		this.mitarbeiterProperty().set(mitarbeiter);
 	}
 
-	
-
 	public ObjectProperty<Level> levelProperty() {
 		return this.level;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "level_id")
 	public Level getLevel() {
 		return this.levelProperty().get();
@@ -127,7 +126,7 @@ public class Schulung {
 		return this.status;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status_id")
 	public Status getStatus() {
 		return this.statusProperty().get();
@@ -141,7 +140,7 @@ public class Schulung {
 		return this.produkt;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "produkt_id")
 	public Produkt getProdukt() {
 		return this.produktProperty().get();

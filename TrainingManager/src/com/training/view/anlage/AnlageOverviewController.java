@@ -67,7 +67,7 @@ public class AnlageOverviewController {
 	public void setData() {
 
 		ObservableList<Anlage> abteilungenFX = FXCollections
-				.observableArrayList(Service.getInstance().getAnlageService().findAll());
+				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithStandort());
 		table.setItems(abteilungenFX);
 
 	}
@@ -118,7 +118,7 @@ public class AnlageOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAnlageService().findAll()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithStandort()));
 			table.refresh();
 			showDetails(null);
 		}

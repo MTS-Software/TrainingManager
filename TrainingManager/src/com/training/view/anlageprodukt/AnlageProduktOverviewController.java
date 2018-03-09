@@ -66,9 +66,9 @@ public class AnlageProduktOverviewController {
 
 	public void setData() {
 
-		ObservableList<Anlage> abteilungenFX = FXCollections
-				.observableArrayList(Service.getInstance().getAnlageService().findAll());
-		table.setItems(abteilungenFX);
+		ObservableList<Anlage> data = FXCollections
+				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithProdukteWithHerstellerWithKategorie());
+		table.setItems(data);
 
 	}
 

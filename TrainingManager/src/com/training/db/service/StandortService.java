@@ -2,9 +2,12 @@ package com.training.db.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
+
 import com.training.db.dao.StandortDAO;
 import com.training.db.dao.StandortJDBCDAO;
 import com.training.db.util.DAOException;
+import com.training.model.Abteilung;
 import com.training.model.Standort;
 
 public class StandortService {
@@ -72,6 +75,41 @@ public class StandortService {
 		List<Standort> data = null;
 		try {
 			data = standortDAO.getAll();
+
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			standortDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Standort> findStandortWithAbteilungen() {
+		standortDAO.openCurrentSession();
+		List<Standort> data = null;
+		try {
+			data = standortDAO.getAll();
+			for (Standort st : data)
+				Hibernate.initialize(st.getAbteilungen());
+
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			standortDAO.closeCurrentSession();
+		}
+		return data;
+	}
+	
+	public List<Standort> findStandortWithAnlagen() {
+		standortDAO.openCurrentSession();
+		List<Standort> data = null;
+		try {
+			data = standortDAO.getAll();
+			for (Standort st : data)
+				Hibernate.initialize(st.getAnlagen());
+
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

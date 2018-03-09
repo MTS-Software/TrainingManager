@@ -2,10 +2,13 @@ package com.training.db.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
+
 import com.training.db.dao.AnlageDAO;
 import com.training.db.dao.AnlageJDBCDAO;
 import com.training.db.util.DAOException;
 import com.training.model.Anlage;
+import com.training.model.Produkt;
 
 public class AnlageService {
 
@@ -73,6 +76,50 @@ public class AnlageService {
 		List<Anlage> data = null;
 		try {
 			data = anlageDAO.getAll();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			anlageDAO.closeCurrentSession();
+		}
+		return data;
+	}
+	
+	public List<Anlage> findAnlagenWithStandort() {
+		anlageDAO.openCurrentSession();
+		List<Anlage> data = null;
+		try {
+			data = anlageDAO.getAll();
+
+			for (Anlage anl : data)
+				Hibernate.initialize(anl.getStandort());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			anlageDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Anlage> findAnlagenWithProdukteWithHerstellerWithKategorie() {
+		anlageDAO.openCurrentSession();
+		List<Anlage> data = null;
+		try {
+			data = anlageDAO.getAll();
+
+			for (Anlage anl : data) {
+				Hibernate.initialize(anl.getProdukte());
+				
+				for(Produkt prod : anl.getProdukte()) {
+					Hibernate.initialize(prod.getKategorie());
+					Hibernate.initialize(prod.getHersteller().getHerstellerProdukte());
+					
+					
+				}
+				
+				
+			}
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -53,7 +53,7 @@ public class Status {
 		this.nameProperty().set(name);
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "status", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "status", cascade = CascadeType.ALL)
 	public List<Schulung> getSchulungen() {
 		return schulungen;
 	}

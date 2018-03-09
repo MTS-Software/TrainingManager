@@ -71,7 +71,7 @@ public class Abteilung {
 		this.kostenstelleProperty().set(kostenstelle);
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "abteilung", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abteilung", cascade = CascadeType.ALL)
 	public List<Mitarbeiter> getMitarbeiter() {
 		return mitarbeiter;
 	}
@@ -84,7 +84,7 @@ public class Abteilung {
 		return this.standort;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "standort_id")
 	public Standort getStandort() {
 		return this.standortProperty().get();

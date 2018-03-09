@@ -67,7 +67,7 @@ public class Level {
 		return this.level;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "level", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "level", cascade = CascadeType.ALL)
 	public List<Schulung> getSchulungen() {
 		return schulungen;
 	}

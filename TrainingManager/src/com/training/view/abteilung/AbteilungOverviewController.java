@@ -95,9 +95,9 @@ public class AbteilungOverviewController {
 
 	public void setData() {
 
-		ObservableList<Abteilung> abteilungenFX = FXCollections
-				.observableArrayList(Service.getInstance().getAbteilungService().findAll());
-		table.setItems(abteilungenFX);
+		ObservableList<Abteilung> data = FXCollections
+				.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenWithStandort());
+		table.setItems(data);
 
 	}
 
@@ -147,7 +147,7 @@ public class AbteilungOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAbteilungService().findAll()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenWithStandort()));
 			table.refresh();
 			showDetails(null);
 		}

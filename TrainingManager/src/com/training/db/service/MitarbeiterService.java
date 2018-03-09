@@ -2,6 +2,8 @@ package com.training.db.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
+
 import com.training.db.dao.MitarbeiterDAO;
 import com.training.db.dao.MitarbeiterJDBCDAO;
 import com.training.db.util.DAOException;
@@ -72,6 +74,25 @@ public class MitarbeiterService {
 		List<Mitarbeiter> data = null;
 		try {
 			data = mitarbeiterDAO.getAll();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			mitarbeiterDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Mitarbeiter> findMitarbeiterWithAbteilungWithStandort() {
+		mitarbeiterDAO.openCurrentSession();
+		List<Mitarbeiter> data = null;
+		try {
+			data = mitarbeiterDAO.getAll();
+			for (Mitarbeiter mit : data) {
+				
+				Hibernate.initialize(mit.getAbteilung().getStandort());
+
+			}
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

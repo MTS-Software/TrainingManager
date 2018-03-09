@@ -66,7 +66,7 @@ public class Standort {
 		this.abteilungen = abteilungen;
 	}
 
-	@LazyCollection(LazyCollectionOption.FALSE)
+	//@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "standort", cascade = CascadeType.ALL)
 	public List<Anlage> getAnlagen() {
 		return anlagen;

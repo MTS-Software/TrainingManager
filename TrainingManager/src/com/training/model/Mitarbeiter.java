@@ -116,7 +116,7 @@ public class Mitarbeiter {
 		return this.abteilung;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "abteilung_id")
 	public Abteilung getAbteilung() {
 		return this.abteilungProperty().get();
@@ -128,7 +128,7 @@ public class Mitarbeiter {
 
 	// @ManyToMany(fetch = FetchType.EAGER, mappedBy = "mitarbeiter", cascade =
 	// CascadeType.MERGE)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	@JoinTable(name = "anlage_mitarbeiter", joinColumns = {
 			@JoinColumn(name = "mitarbeiter_id") }, inverseJoinColumns = { @JoinColumn(name = "anlage_id") })
 	public List<Anlage> getAnlagen() {

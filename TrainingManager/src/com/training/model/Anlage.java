@@ -72,7 +72,7 @@ public class Anlage {
 		return this.standort;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "standort_id")
 	public Standort getStandort() {
 		return this.standortProperty().get();
