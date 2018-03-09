@@ -125,7 +125,7 @@ public class SchulungOverviewController {
 
 	public void setData() {
 
-		schulungenList = FXCollections.observableArrayList(Service.getInstance().getSchulungService().findAll());
+		schulungenList = FXCollections.observableArrayList(Service.getInstance().getSchulungService().findSchulungenWithMitarbeiterWithLevelWithStatusWithProdukt());
 		table.setItems(schulungenList);
 
 		filter();
@@ -236,7 +236,7 @@ public class SchulungOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getSchulungService().findAll()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getSchulungService().findSchulungenWithMitarbeiterWithLevelWithStatusWithProdukt()));
 			table.refresh();
 			showDetails(null);
 		}

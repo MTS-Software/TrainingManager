@@ -89,8 +89,46 @@ public class MitarbeiterService {
 		try {
 			data = mitarbeiterDAO.getAll();
 			for (Mitarbeiter mit : data) {
-				
+
 				Hibernate.initialize(mit.getAbteilung().getStandort());
+
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			mitarbeiterDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Mitarbeiter> findMitarbeiterWithAbteilung() {
+		mitarbeiterDAO.openCurrentSession();
+		List<Mitarbeiter> data = null;
+		try {
+			data = mitarbeiterDAO.getAll();
+			for (Mitarbeiter mit : data) {
+
+				Hibernate.initialize(mit.getAbteilung());
+
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			mitarbeiterDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Mitarbeiter> findMitarbeiterWithAnlagen() {
+		mitarbeiterDAO.openCurrentSession();
+		List<Mitarbeiter> data = null;
+		try {
+			data = mitarbeiterDAO.getAll();
+			for (Mitarbeiter mit : data) {
+
+				Hibernate.initialize(mit.getAnlagen());
 
 			}
 		} catch (DAOException e) {

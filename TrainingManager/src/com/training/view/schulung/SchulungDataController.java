@@ -100,7 +100,7 @@ public class SchulungDataController {
 		mitarbeiter = FXCollections.observableArrayList(Service.getInstance().getMitarbeiterService().findAll());
 		status = FXCollections.observableArrayList(Service.getInstance().getStatusService().findAll());
 		level = FXCollections.observableArrayList(Service.getInstance().getLevelService().findAll());
-		produkte = FXCollections.observableArrayList(Service.getInstance().getProduktService().findAll());
+		produkte = FXCollections.observableArrayList(Service.getInstance().getProduktService().findProdukteWithHersteller());
 
 	}
 

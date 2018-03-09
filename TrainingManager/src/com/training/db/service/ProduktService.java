@@ -113,6 +113,30 @@ public class ProduktService {
 		return data;
 
 	}
+	
+	public List<Produkt> findProdukteWithHersteller() {
+		produktDAO.openCurrentSession();
+		List<Produkt> data = null;
+		try {
+			data = produktDAO.getAll();
+
+			for (Produkt produkt : data) {
+				Hibernate.initialize(produkt.getHersteller());
+
+			}
+
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		finally {
+			produktDAO.closeCurrentSession();
+		}
+		return data;
+
+	}
+
 
 	public ProduktDAO produktDAO() {
 		return produktDAO;

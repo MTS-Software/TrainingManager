@@ -2,6 +2,8 @@ package com.training.db.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
+
 import com.training.db.dao.SchulungDAO;
 import com.training.db.dao.SchulungJDBCDAO;
 import com.training.db.util.DAOException;
@@ -72,6 +74,29 @@ public class SchulungService {
 		List<Schulung> data = null;
 		try {
 			data = schulungDAO.getAll();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			schulungDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Schulung> findSchulungenWithMitarbeiterWithLevelWithStatusWithProdukt() {
+		schulungDAO.openCurrentSession();
+		List<Schulung> data = null;
+		try {
+			data = schulungDAO.getAll();
+
+			for (Schulung s : data) {
+				Hibernate.initialize(s.getMitarbeiter());
+				Hibernate.initialize(s.getLevel());
+				Hibernate.initialize(s.getStatus());
+				if (s.getProdukt() != null)
+					Hibernate.initialize(s.getProdukt().getHersteller());
+
+			}
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
