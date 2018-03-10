@@ -82,6 +82,8 @@ public class Main extends Application {
 	private static double fadeTransitionsTime = Constants.FADE_TRANSITIONS_TIME;
 	private static boolean showSplashScreen = Constants.SHOW_SPLASH_SCREEN;
 
+	public final static String APP_ICON = Constants.APP_ICON;
+
 	private static String ip;
 
 	private Stage primaryStage;
@@ -89,6 +91,16 @@ public class Main extends Application {
 	private BorderPane rootLayout;
 
 	public static void main(String[] args) {
+
+		if (ip != null) {
+
+			ApplicationProperties.getInstance().edit("db_host", ip);
+
+			threadSplashSleepTime = 0;
+			fadeTransitionsTime = 0.0;
+			showSplashScreen = true;
+
+		}
 
 		launch(args);
 
@@ -99,14 +111,7 @@ public class Main extends Application {
 
 		this.primaryStage = new Stage();
 
-		if (ip != null) {
-			ApplicationProperties.getInstance().edit("db_host", ip);
-
-			threadSplashSleepTime = 0;
-			fadeTransitionsTime = 0.0;
-			showSplashScreen = true;
-
-		}
+		PropertyConfigurator.configure(getClass().getClassLoader().getResource("log4j.properties"));
 
 		final Task<Integer> modulTask = new Task<Integer>() {
 			@Override
@@ -124,11 +129,8 @@ public class Main extends Application {
 					updateMessage(
 							actProgress + " von " + maxProgress + ": " + "Initialisiere Programmeinstellungen. . .");
 
-					HibernateUtil.getSessionFactory();
-
 					String userHome = System.getProperty("user.home");
 
-					PropertyConfigurator.configure(getClass().getClassLoader().getResource("log4j.properties"));
 					ApplicationProperties.configure("application.properties",
 							userHome + File.separator + resources.getString("appname"), "application.properties");
 					ApplicationProperties.getInstance().setup();
@@ -142,16 +144,17 @@ public class Main extends Application {
 					updateMessage(actProgress + " von " + maxProgress + ": "
 							+ "Initialisiere Visualisierung, Datenbank, Schnittstellen. . .");
 
+					HibernateUtil.getSessionFactory();
+
 					primaryStage.setTitle(resources.getString("appname") + " Build " + BUILD.replace("$", " "));
 					primaryStage.setMaximized(true);
 					primaryStage.getIcons()
-							.add(new Image(getClass().getClassLoader().getResourceAsStream(Constants.APP_ICON)));
+							.add(new Image(getClass().getClassLoader().getResourceAsStream(Main.APP_ICON)));
 					primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 						@Override
 						public void handle(WindowEvent event) {
 
 							Platform.exit();
-
 							System.exit(0);
 
 						}

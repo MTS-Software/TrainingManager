@@ -22,3 +22,4 @@
 		<mapping class="com.training.model.Kategorie" />
 	</session-factory>
 </hibernate-configuration>
+
