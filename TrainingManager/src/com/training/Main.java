@@ -1,5 +1,6 @@
 package com.training;
 
+import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -31,16 +32,33 @@ import com.training.view.schulung.SchulungOverviewController;
 import com.training.view.standort.StandortOverviewController;
 import com.training.view.status.StatusOverviewController;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class Main extends Application {
 
@@ -58,6 +76,17 @@ public class Main extends Application {
 	private static final Logger logger = Logger.getLogger(Main.class);
 	private ResourceBundle resources = ResourceBundle.getBundle("language");
 
+	// Splash
+	private Pane splashLayout;
+	private ProgressBar loadProgress;
+	private Label progressText;
+	private Label appInfo;
+	private Label developerInfo;
+	public static final String SPLASH_IMAGE = Constants.SPLASHSCREEN_IMAGE_PROCESSMANAGER;
+	private static int threadSplashSleepTime = Constants.THREAD_SPLASH_SLEEP_TIME;
+	private static double fadeTransitionsTime = Constants.FADE_TRANSITIONS_TIME;
+	private static boolean showSplashScreen = Constants.SHOW_SPLASH_SCREEN;
+
 	private static String ip;
 
 	private Stage primaryStage;
@@ -71,60 +100,78 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage initStage) {
 
-		this.primaryStage = primaryStage;
-
-		HibernateUtil.getSessionFactory();
-
-		String userHome = System.getProperty("user.home");
-
-		PropertyConfigurator.configure(getClass().getClassLoader().getResource("log4j.properties"));
-		ApplicationProperties.configure("application.properties",
-				userHome + File.separator + resources.getString("appname"), "application.properties");
-		ApplicationProperties.getInstance().setup();
+		this.primaryStage = new Stage();
 
 		if (ip != null) {
 			ApplicationProperties.getInstance().edit("db_host", ip);
-			LoginDialog.loggedIn = true;
+
+			threadSplashSleepTime = 0;
+			fadeTransitionsTime = 0.0;
+			showSplashScreen = true;
 
 		}
 
-		this.primaryStage.setTitle(resources.getString("appname") + " Build " + BUILD.replace("$", " "));
-		this.primaryStage.setMaximized(true);
-		this.primaryStage.getIcons()
-				.add(new Image(getClass().getClassLoader().getResourceAsStream(Constants.APP_ICON)));
-		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		final Task<Integer> modulTask = new Task<Integer>() {
 			@Override
-			public void handle(WindowEvent event) {
+			protected Integer call() throws InterruptedException {
 
-				Platform.exit();
+				int actProgress = 1;
+				int maxProgress = 2;
 
-				System.exit(0);
+				updateProgress(0, maxProgress);
+				updateMessage("Programm wird gestartet. . .");
+				Thread.sleep(threadSplashSleepTime * 2);
 
+				if (actProgress == 1) {
+					updateProgress(actProgress, maxProgress);
+					updateMessage(
+							actProgress + " von " + maxProgress + ": " + "Initialisiere Programmeinstellungen. . .");
+
+					HibernateUtil.getSessionFactory();
+
+					String userHome = System.getProperty("user.home");
+
+					PropertyConfigurator.configure(getClass().getClassLoader().getResource("log4j.properties"));
+					ApplicationProperties.configure("application.properties",
+							userHome + File.separator + resources.getString("appname"), "application.properties");
+					ApplicationProperties.getInstance().setup();
+
+					Thread.sleep(threadSplashSleepTime);
+					actProgress++;
+				}
+
+				if (actProgress == 2) {
+					updateProgress(actProgress, maxProgress);
+					updateMessage(actProgress + " von " + maxProgress + ": "
+							+ "Initialisiere Visualisierung, Datenbank, Schnittstellen. . .");
+
+					primaryStage.setTitle(resources.getString("appname") + " Build " + BUILD.replace("$", " "));
+					primaryStage.setMaximized(true);
+					primaryStage.getIcons()
+							.add(new Image(getClass().getClassLoader().getResourceAsStream(Constants.APP_ICON)));
+					primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+						@Override
+						public void handle(WindowEvent event) {
+
+							Platform.exit();
+
+							System.exit(0);
+
+						}
+					});
+
+					Thread.sleep(threadSplashSleepTime);
+					actProgress++;
+				}
+
+				return actProgress;
 			}
-		});
+		};
 
-		initRootLayout();
-
-		// test();
-
-		this.primaryStage.show();
-	}
-
-	private void test() {
-
-		System.out.println("Abteilungen");
-		for (Abteilung abt : Service.getInstance().getAbteilungService().findAll()) {
-
-			System.out.println(abt.getName());
-			System.out.println(abt.getStandort().getName());
-
-			// for (Mitarbeiter ma : abt.getMitarbeiter()) {
-			// System.out.println(ma.getVorname() + " " + ma.getNachname());
-			// }
-
-		}
+		showSplash(initStage, modulTask, () -> initRootLayout());
+		new Thread(modulTask).start();
 
 	}
 
@@ -149,7 +196,7 @@ public class Main extends Application {
 			LayoutController controller = loader.getController();
 			controller.setMain(this);
 
-			// showArtikelOverview();
+			this.primaryStage.show();
 
 		} catch (IOException e) {
 
@@ -643,6 +690,89 @@ public class Main extends Application {
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
+	}
+
+	@Override
+	public void init() {
+
+		ImageView splash = new ImageView(new Image(SPLASH_IMAGE));
+
+		loadProgress = new ProgressBar();
+		loadProgress.setPrefWidth(Constants.SPLASH_WIDTH - 20);
+
+		progressText = new Label("");
+		progressText.setAlignment(Pos.CENTER);
+
+		StringBuilder sb = new StringBuilder();
+		appInfo = new Label("");
+
+		sb.append(resources.getString("appname"));
+		sb.append(" (Version 1.0");
+
+		appInfo.setFont(Font.font("System", FontWeight.BOLD, 11));
+		appInfo.setTextFill(Color.DARKGREY);
+		appInfo.setText(sb.toString().replace("$", ""));
+
+		developerInfo = new Label("");
+		developerInfo.setFont(Font.font("System", FontWeight.BOLD, 20));
+		developerInfo.setTextFill(Color.DARKGREY);
+		developerInfo.setText("\nEntwicklung: " + resources.getString("programer1"));
+
+		splashLayout = new VBox();
+		splashLayout.getChildren().addAll(splash, loadProgress, progressText, developerInfo, appInfo);
+		splashLayout.setStyle(
+				"-fx-padding: 5; " + "-fx-background-color: #DAE6F3; " + "-fx-border-width:5; " + "-fx-border-color: "
+						+ "linear-gradient(" + "to bottom, " + "#7ebcea, " + "derive(#7ebcea, 50%)" + ");");
+		splashLayout.setEffect(new DropShadow());
+	}
+
+	private void showSplash(final Stage initStage, Task<?> task, InitCompletionHandler initCompletionHandler) {
+		progressText.textProperty().bind(task.messageProperty());
+		loadProgress.progressProperty().bind(task.progressProperty());
+		task.stateProperty().addListener((observableValue, oldState, newState) -> {
+			if (newState == Worker.State.SUCCEEDED) {
+				loadProgress.progressProperty().unbind();
+				loadProgress.setProgress(1);
+				initStage.toFront();
+				FadeTransition fadeSplash = new FadeTransition(Duration.seconds(fadeTransitionsTime), splashLayout);
+				fadeSplash.setFromValue(1.0);
+				fadeSplash.setToValue(0.0);
+				fadeSplash.setOnFinished(actionEvent -> initStage.close());
+				fadeSplash.play();
+
+				initCompletionHandler.complete();
+			} // todo add code to gracefully handle other task states.
+		});
+
+		Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
+		final Rectangle2D bounds = Screen.getPrimary().getBounds();
+		initStage.setScene(splashScene);
+		initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - Constants.SPLASH_WIDTH / 2);
+		initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - Constants.SPLASH_HEIGHT / 2);
+		initStage.getIcons().add(new Image(Constants.APP_ICON));
+		initStage.setTitle(resources.getString("appname"));
+		initStage.initStyle(StageStyle.TRANSPARENT);
+		initStage.setResizable(false);
+
+		initStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				logger.info("Programm beenden");
+
+				Platform.exit();
+				System.exit(0);
+
+			}
+		});
+
+		initStage.setAlwaysOnTop(true);
+
+		if (showSplashScreen)
+			initStage.show();
+	}
+
+	public interface InitCompletionHandler {
+		void complete();
 	}
 
 }
