@@ -1,6 +1,5 @@
 package com.training;
 
-import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -8,10 +7,7 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.training.db.service.Service;
 import com.training.db.util.HibernateUtil;
-import com.training.model.Abteilung;
-import com.training.model.Standort;
 import com.training.model.Status;
 import com.training.util.ApplicationProperties;
 import com.training.util.Constants;
@@ -26,7 +22,6 @@ import com.training.view.mitarbeiter.MitarbeiterOverviewController;
 import com.training.view.mitarbeiteranlage.MitarbeiterAnlageOverviewController;
 import com.training.view.produkt.ProduktOverviewController;
 import com.training.view.root.LayoutController;
-import com.training.view.root.LoginDialog;
 import com.training.view.root.SettingsController;
 import com.training.view.schulung.SchulungOverviewController;
 import com.training.view.standort.StandortOverviewController;
