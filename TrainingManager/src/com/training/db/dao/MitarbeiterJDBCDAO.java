@@ -13,9 +13,7 @@ import org.hibernate.query.Query;
 
 import com.training.db.util.DAOException;
 import com.training.db.util.HibernateUtil;
-import com.training.model.Abteilung;
 import com.training.model.Mitarbeiter;
-import com.training.model.Standort;
 
 public class MitarbeiterJDBCDAO implements MitarbeiterDAO {
 
@@ -82,13 +80,33 @@ public class MitarbeiterJDBCDAO implements MitarbeiterDAO {
 
 			transaction = currentSession.beginTransaction();
 
-//			select * from mitarbeiter
-//			where mitarbeiter.abteilung_id = 
-//			(select abteilung.id
-//			from standort, abteilung
-//			where standort.name like "Test" and abteilung.standort_id = standort.id); 
+			// Query query = currentSession.createQuery(
+			// "from mitarbeiter where mitarbeiter.abteilung_id in (select abteilung.id from
+			// standort, abteilung where abteilung.standort_id = standort.id and
+			// standort.name like :standort");
+			// Query query = currentSession.createQuery("from mitarbeiter where
+			// mitarbeiter.nachname = Thaler");
+			// query.setParameter("standort", standort);
 
-			transaction.commit();
+			// select * from mitarbeiter
+			// where mitarbeiter.abteilung_id =
+			// (select abteilung.id
+			// from standort, abteilung
+			// where standort.name like "Test" and abteilung.standort_id = standort.id);
+
+			// List<Mitarbeiter> data = query.list();
+			// transaction.commit();
+
+			// List<Mitarbeiter> data = currentSession
+			// .createNativeQuery("SELECT * " + "FROM mitarbeiter m " + "where m.nachname
+			// like 'Thaler'")
+			// .addEntity(Mitarbeiter.class).list();
+
+			List<Mitarbeiter> data = currentSession
+					.createNativeQuery("SELECT * " + "FROM mitarbeiter WHERE mitarbeiter.abteilung_id IN "
+							+ "(SELECT abteilung.id FROM abteilung, standort "
+							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "')")
+					.addEntity(Mitarbeiter.class).list();
 
 			return data;
 

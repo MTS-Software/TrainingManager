@@ -256,7 +256,7 @@ public class LayoutController implements Initializable {
 
 		// Standorte
 		TreeItem<Object> itemStandorte = new TreeItem<>("Standorte");
-		itemStandorte.setExpanded(false);
+		itemStandorte.setExpanded(true);
 
 		imageView = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/map48.png")));
@@ -736,13 +736,13 @@ public class LayoutController implements Initializable {
 		if (selectedItem.getParent().getValue().toString().equalsIgnoreCase("Stammdaten")) {
 
 			if (selectedItem.getValue().toString().equalsIgnoreCase("Abteilungen")) {
-				main.showAbteilungOverviewDialog();
+				main.showAbteilungOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 
 			}
 
 			if (selectedItem.getValue().toString().equalsIgnoreCase("Mitarbeiter")) {
 
-				main.showMitarbeiterOverviewDialog(selectedItem.getParent().getParent().getValue());
+				main.showMitarbeiterOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 			}
 
 			if (selectedItem.getValue().toString().equalsIgnoreCase("Standorte")) {
@@ -770,7 +770,7 @@ public class LayoutController implements Initializable {
 			}
 
 			if (selectedItem.getValue().toString().equalsIgnoreCase("Anlagen")) {
-				main.showAnlageOverviewDialog();
+				main.showAnlageOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 			}
 
 			if (selectedItem.getValue().toString().equalsIgnoreCase("Anlagen - Produkte")) {

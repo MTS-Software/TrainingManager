@@ -14,6 +14,7 @@ import org.hibernate.query.Query;
 import com.training.db.util.DAOException;
 import com.training.db.util.HibernateUtil;
 import com.training.model.Abteilung;
+import com.training.model.Mitarbeiter;
 
 public class AbteilungJDBCDAO implements AbteilungDAO {
 
@@ -61,6 +62,33 @@ public class AbteilungJDBCDAO implements AbteilungDAO {
 			transaction.commit();
 
 			return abteilungen;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+
+		}
+		return null;
+
+	}
+
+	public List<Abteilung> getAbteilungenFromStandort(String standort) throws DAOException {
+		Transaction transaction = null;
+
+		try {
+
+			transaction = currentSession.beginTransaction();
+
+			List<Abteilung> data = currentSession
+					.createNativeQuery("SELECT * " + "FROM abteilung WHERE abteilung.id IN "
+							+ "(SELECT abteilung.id FROM abteilung, standort "
+							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "')")
+					.addEntity(Abteilung.class).list();
+
+			return data;
 
 		} catch (Exception e) {
 			e.printStackTrace();

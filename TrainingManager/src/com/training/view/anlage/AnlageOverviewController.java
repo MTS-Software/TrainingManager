@@ -40,6 +40,8 @@ public class AnlageOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -64,10 +66,12 @@ public class AnlageOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
+
+		this.standort = standort;
 
 		ObservableList<Anlage> abteilungenFX = FXCollections
-				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithStandort());
+				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenFromStandort(standort));
 		table.setItems(abteilungenFX);
 
 	}
@@ -118,7 +122,8 @@ public class AnlageOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithStandort()));
+			table.setItems(FXCollections
+					.observableArrayList(Service.getInstance().getAnlageService().findAnlagenFromStandort(standort)));
 			table.refresh();
 			showDetails(null);
 		}
@@ -144,7 +149,7 @@ public class AnlageOverviewController {
 	private void handleRefresh(KeyEvent event) {
 
 		if (event.getCode() == KeyCode.F5) {
-			setData();
+			setData(standort);
 		}
 
 	}

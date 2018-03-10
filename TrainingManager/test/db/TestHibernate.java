@@ -1,11 +1,8 @@
 package db;
 
-import org.hibernate.Hibernate;
-
 import com.training.db.service.Service;
 import com.training.db.util.DAOException;
 import com.training.db.util.HibernateUtil;
-import com.training.model.Abteilung;
 import com.training.model.Anlage;
 import com.training.model.Hersteller;
 import com.training.model.Kategorie;
@@ -28,6 +25,8 @@ public class TestHibernate {
 	}
 
 	public TestHibernate() throws DAOException {
+		
+		HibernateUtil.getSessionFactory();
 		// testKategorie();
 		// testHersteller();
 		// testMitarbeiter();
@@ -35,8 +34,8 @@ public class TestHibernate {
 
 		// testAnlage();
 
-		// testMitarbeiter();
-		testStandort();
+		 testMitarbeiter();
+		//testStandort();
 
 	}
 
@@ -106,12 +105,12 @@ public class TestHibernate {
 
 	private void testMitarbeiter() {
 
-		for (Mitarbeiter mit : Service.getInstance().getMitarbeiterService().findAll()) {
-			System.out.println(mit.getNachname());
+		for (Mitarbeiter mit : Service.getInstance().getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung("Test")) {
+			System.out.println(mit.getNachname() + mit.getVorname());
 
-			for (Anlage anl : mit.getAnlagen()) {
-				System.out.println(anl.getName());
-			}
+//			for (Anlage anl : mit.getAnlagen()) {
+//				System.out.println(anl.getName());
+//			}
 			System.out.println();
 
 		}

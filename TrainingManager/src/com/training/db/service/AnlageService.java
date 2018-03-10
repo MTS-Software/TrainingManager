@@ -84,7 +84,7 @@ public class AnlageService {
 		}
 		return data;
 	}
-	
+
 	public List<Anlage> findAnlagenWithStandort() {
 		anlageDAO.openCurrentSession();
 		List<Anlage> data = null;
@@ -102,6 +102,24 @@ public class AnlageService {
 		return data;
 	}
 
+	public List<Anlage> findAnlagenFromStandort(String standort) {
+		anlageDAO.openCurrentSession();
+		List<Anlage> data = null;
+		try {
+			data = anlageDAO.getAnlagenFromStandort(standort);
+
+			for (Anlage anl : data)
+				Hibernate.initialize(anl.getStandort());
+			
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			anlageDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
 	public List<Anlage> findAnlagenWithProdukteWithHerstellerWithKategorie() {
 		anlageDAO.openCurrentSession();
 		List<Anlage> data = null;
@@ -110,15 +128,13 @@ public class AnlageService {
 
 			for (Anlage anl : data) {
 				Hibernate.initialize(anl.getProdukte());
-				
-				for(Produkt prod : anl.getProdukte()) {
+
+				for (Produkt prod : anl.getProdukte()) {
 					Hibernate.initialize(prod.getKategorie());
 					Hibernate.initialize(prod.getHersteller().getHerstellerProdukte());
-					
-					
+
 				}
-				
-				
+
 			}
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block

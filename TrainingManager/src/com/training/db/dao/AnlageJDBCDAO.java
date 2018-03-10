@@ -72,6 +72,34 @@ public class AnlageJDBCDAO implements AnlageDAO {
 		return null;
 
 	}
+	
+	
+	public List<Anlage> getAnlagenFromStandort(String standort) throws DAOException {
+		Transaction transaction = null;
+
+		try {
+
+			transaction = currentSession.beginTransaction();
+
+			List<Anlage> data = currentSession
+					.createNativeQuery("SELECT * " + "FROM anlage WHERE anlage.id IN "
+							+ "(SELECT anlage.id FROM anlage, standort "
+							+ "WHERE anlage.standort_id = standort.id and standort.name like '" + standort + "')")
+					.addEntity(Anlage.class).list();
+
+			return data;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+
+		}
+		return null;
+
+	}
 
 	@Override
 	public void insert(Anlage data) throws DAOException {

@@ -99,6 +99,22 @@ public class AbteilungService {
 		return data;
 	}
 
+	public List<Abteilung> findAbteilungenFromStandort(String standort) {
+		abteilungDAO.openCurrentSession();
+		List<Abteilung> data = null;
+		try {
+			data = abteilungDAO.getAbteilungenFromStandort(standort);
+			for (Abteilung abt : data)
+				Hibernate.initialize(abt.getStandort());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			abteilungDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
 	public AbteilungDAO abteilungDAO() {
 		return abteilungDAO;
 	}

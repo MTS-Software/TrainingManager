@@ -50,6 +50,8 @@ public class AbteilungOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -93,10 +95,12 @@ public class AbteilungOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
+
+		this.standort = standort;
 
 		ObservableList<Abteilung> data = FXCollections
-				.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenWithStandort());
+				.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenFromStandort(standort));
 		table.setItems(data);
 
 	}
@@ -147,7 +151,8 @@ public class AbteilungOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenWithStandort()));
+			table.setItems(FXCollections
+					.observableArrayList(Service.getInstance().getAbteilungService().findAbteilungenFromStandort(standort)));
 			table.refresh();
 			showDetails(null);
 		}
@@ -173,7 +178,7 @@ public class AbteilungOverviewController {
 	private void handleRefresh(KeyEvent event) {
 
 		if (event.getCode() == KeyCode.F5) {
-			setData();
+			setData(standort);
 		}
 
 	}

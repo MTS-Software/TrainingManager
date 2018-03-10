@@ -107,7 +107,7 @@ public class MitarbeiterService {
 		mitarbeiterDAO.openCurrentSession();
 		List<Mitarbeiter> data = null;
 		try {
-			data = mitarbeiterDAO.getMitarbeiterFromStandort(standort)
+			data = mitarbeiterDAO.getMitarbeiterFromStandort(standort);
 			for (Mitarbeiter mit : data) {
 
 				Hibernate.initialize(mit.getAbteilung().getStandort());

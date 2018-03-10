@@ -162,7 +162,7 @@ public class Main extends Application {
 
 	}
 
-	public void showAbteilungOverviewDialog() {
+	public void showAbteilungOverviewDialog(String standort) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -183,7 +183,7 @@ public class Main extends Application {
 
 			AbteilungOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 
@@ -451,7 +451,7 @@ public class Main extends Application {
 
 	}
 
-	public void showAnlageOverviewDialog() {
+	public void showAnlageOverviewDialog(String standort) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -472,7 +472,7 @@ public class Main extends Application {
 
 			AnlageOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 

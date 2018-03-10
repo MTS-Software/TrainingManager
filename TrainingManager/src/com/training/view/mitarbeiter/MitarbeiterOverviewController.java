@@ -50,6 +50,8 @@ public class MitarbeiterOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -114,6 +116,8 @@ public class MitarbeiterOverviewController {
 	}
 
 	public void setData(String standort) {
+		
+		this.standort = standort;
 
 		ObservableList<Mitarbeiter> data = FXCollections.observableArrayList(
 				Service.getInstance().getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung(standort));
@@ -168,7 +172,7 @@ public class MitarbeiterOverviewController {
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
 			table.setItems(FXCollections.observableArrayList(
-					Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilungWithStandort()));
+					Service.getInstance().getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung(standort)));
 			table.refresh();
 			showDetails(null);
 		}
@@ -194,7 +198,7 @@ public class MitarbeiterOverviewController {
 	private void handleRefresh(KeyEvent event) {
 
 		if (event.getCode() == KeyCode.F5) {
-			setData();
+			setData(standort);
 		}
 
 	}
