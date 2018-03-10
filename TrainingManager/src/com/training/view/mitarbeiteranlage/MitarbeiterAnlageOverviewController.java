@@ -42,6 +42,8 @@ public class MitarbeiterAnlageOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -67,7 +69,9 @@ public class MitarbeiterAnlageOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
+
+		this.standort = standort;
 
 		ObservableList<Mitarbeiter> mitarbeiter = FXCollections
 				.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAnlagen());
@@ -121,7 +125,8 @@ public class MitarbeiterAnlageOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAnlagen()));
+			table.setItems(FXCollections
+					.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAnlagen()));
 			table.refresh();
 			showDetails(null);
 		}
@@ -147,7 +152,7 @@ public class MitarbeiterAnlageOverviewController {
 	private void handleRefresh(KeyEvent event) {
 
 		if (event.getCode() == KeyCode.F5) {
-			setData();
+			setData(standort);
 		}
 
 	}

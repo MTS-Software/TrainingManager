@@ -58,6 +58,8 @@ public class SchulungOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -82,7 +84,6 @@ public class SchulungOverviewController {
 			};
 
 		});
-		
 
 		levelColumn.setCellValueFactory(new PropertyValueFactory<Schulung, Level>("level"));
 		levelColumn.setCellFactory(column -> {
@@ -123,21 +124,25 @@ public class SchulungOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
 
-		schulungenList = FXCollections.observableArrayList(Service.getInstance().getSchulungService().findSchulungenWithMitarbeiterWithLevelWithStatusWithProdukt());
+		this.standort = standort;
+
+		schulungenList = FXCollections.observableArrayList(Service.getInstance().getSchulungService()
+				.findSchulungenFromStandortWithMitarbeiterWithLevelWithStatusWithProdukt(standort));
 		table.setItems(schulungenList);
 
 		filter();
 
 	}
 
-	public void setData(Status status) {
+	public void setData(String standort, Status status) {
 
 		this.status = status;
 
 		ObservableList<Schulung> schulungenList = FXCollections
-				.observableArrayList(Service.getInstance().getSchulungService().findAll());
+				.observableArrayList(Service.getInstance().getSchulungService()
+						.findSchulungenFromStandortWithMitarbeiterWithLevelWithStatusWithProdukt(standort));
 
 		this.schulungenList = FXCollections.observableArrayList();
 
@@ -157,7 +162,7 @@ public class SchulungOverviewController {
 
 	private void showDetails(Schulung data) {
 
-		schulungDataController.setData(data);
+		schulungDataController.setData(standort, data);
 		schulungDataController.setEditable(false);
 	}
 
@@ -236,7 +241,8 @@ public class SchulungOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getSchulungService().findSchulungenWithMitarbeiterWithLevelWithStatusWithProdukt()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getSchulungService()
+					.findSchulungenFromStandortWithMitarbeiterWithLevelWithStatusWithProdukt(standort)));
 			table.refresh();
 			showDetails(null);
 		}
@@ -264,9 +270,9 @@ public class SchulungOverviewController {
 		if (event.getCode() == KeyCode.F5) {
 
 			if (status != null)
-				setData(status);
+				setData(standort, status);
 			else
-				setData();
+				setData(standort);
 		}
 
 	}
@@ -293,7 +299,7 @@ public class SchulungOverviewController {
 
 			SchulungEditController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData(data);
+			controller.setData(standort, data);
 
 			dialogStage.showAndWait();
 

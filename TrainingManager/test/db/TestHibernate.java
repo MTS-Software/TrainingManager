@@ -8,6 +8,7 @@ import com.training.model.Hersteller;
 import com.training.model.Kategorie;
 import com.training.model.Mitarbeiter;
 import com.training.model.Produkt;
+import com.training.model.Schulung;
 import com.training.model.Standort;
 
 public class TestHibernate {
@@ -25,7 +26,7 @@ public class TestHibernate {
 	}
 
 	public TestHibernate() throws DAOException {
-		
+
 		HibernateUtil.getSessionFactory();
 		// testKategorie();
 		// testHersteller();
@@ -34,8 +35,9 @@ public class TestHibernate {
 
 		// testAnlage();
 
-		 testMitarbeiter();
-		//testStandort();
+		// testMitarbeiter();
+		// testStandort();
+		testSchulungen();
 
 	}
 
@@ -105,12 +107,26 @@ public class TestHibernate {
 
 	private void testMitarbeiter() {
 
-		for (Mitarbeiter mit : Service.getInstance().getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung("Test")) {
+		for (Mitarbeiter mit : Service.getInstance().getMitarbeiterService()
+				.findMitarbeiterFromStandortWithAbteilung("Test")) {
 			System.out.println(mit.getNachname() + mit.getVorname());
 
-//			for (Anlage anl : mit.getAnlagen()) {
-//				System.out.println(anl.getName());
-//			}
+			// for (Anlage anl : mit.getAnlagen()) {
+			// System.out.println(anl.getName());
+			// }
+			System.out.println();
+
+		}
+
+	}
+
+	private void testSchulungen() {
+
+		for (Schulung schulung : Service.getInstance().getSchulungService()
+				.findSchulungenFromStandortWithMitarbeiterWithLevelWithStatusWithProdukt("Ilz")) {
+
+			System.out.println(schulung.getName());
+
 			System.out.println();
 
 		}

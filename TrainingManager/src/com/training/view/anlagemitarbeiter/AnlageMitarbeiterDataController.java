@@ -57,8 +57,8 @@ public class AnlageMitarbeiterDataController {
 
 			nameLabel.setText(data.getName());
 
-			ObservableList<Mitarbeiter> mitarbeiterAll = FXCollections
-					.observableArrayList(Service.getInstance().getMitarbeiterService().findMitarbeiterWithAbteilung());
+			ObservableList<Mitarbeiter> mitarbeiterAll = FXCollections.observableArrayList(Service.getInstance()
+					.getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung(data.getStandort().getName()));
 
 			if (data.getMitarbeiter() != null)
 				for (Mitarbeiter h : mitarbeiterAll) {

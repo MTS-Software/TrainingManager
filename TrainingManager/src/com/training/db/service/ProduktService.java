@@ -8,6 +8,7 @@ import com.training.db.dao.ProduktDAO;
 import com.training.db.dao.ProduktJDBCDAO;
 import com.training.db.util.DAOException;
 import com.training.model.Produkt;
+import com.training.model.Schulung;
 
 public class ProduktService {
 
@@ -77,6 +78,16 @@ public class ProduktService {
 		try {
 			data = produktDAO.getAll();
 
+			for (Produkt p : data) {
+				
+				Hibernate.initialize(p.getSchulungen());
+				Hibernate.initialize(p.getKategorie());
+				Hibernate.initialize(p.getHersteller());
+				
+				
+				
+			}
+
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,7 +124,7 @@ public class ProduktService {
 		return data;
 
 	}
-	
+
 	public List<Produkt> findProdukteWithHersteller() {
 		produktDAO.openCurrentSession();
 		List<Produkt> data = null;
@@ -136,7 +147,6 @@ public class ProduktService {
 		return data;
 
 	}
-
 
 	public ProduktDAO produktDAO() {
 		return produktDAO;

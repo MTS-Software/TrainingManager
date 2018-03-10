@@ -13,6 +13,7 @@ import org.hibernate.query.Query;
 
 import com.training.db.util.DAOException;
 import com.training.db.util.HibernateUtil;
+import com.training.model.Mitarbeiter;
 import com.training.model.Schulung;
 
 public class SchulungJDBCDAO implements SchulungDAO {
@@ -59,6 +60,34 @@ public class SchulungJDBCDAO implements SchulungDAO {
 			transaction.commit();
 
 			return schulungen;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+
+		}
+		return null;
+
+	}
+
+	public List<Schulung> getSchulungenFromStandort(String standort) throws DAOException {
+		Transaction transaction = null;
+
+		try {
+
+			transaction = currentSession.beginTransaction();
+
+			List<Schulung> data = currentSession
+					.createNativeQuery("SELECT * " + "FROM schulung WHERE schulung.mitarbeiter_id IN "
+							+ "(SELECT mitarbeiter.id FROM mitarbeiter WHERE mitarbeiter.abteilung_id IN "
+							+ "(SELECT abteilung.id FROM abteilung, standort "
+							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "'))")
+					.addEntity(Schulung.class).list();
+
+			return data;
 
 		} catch (Exception e) {
 			e.printStackTrace();

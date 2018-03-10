@@ -40,6 +40,8 @@ public class AnlageMitarbeiterOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -64,10 +66,12 @@ public class AnlageMitarbeiterOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
+
+		this.standort = standort;
 
 		ObservableList<Anlage> anlagen = FXCollections
-				.observableArrayList(Service.getInstance().getAnlageService().findAll());
+				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenFromStandort(standort));
 		table.setItems(anlagen);
 
 	}
@@ -144,7 +148,7 @@ public class AnlageMitarbeiterOverviewController {
 	private void handleRefresh(KeyEvent event) {
 
 		if (event.getCode() == KeyCode.F5) {
-			setData();
+			setData(standort);
 		}
 
 	}

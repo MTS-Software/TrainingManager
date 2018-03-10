@@ -8,7 +8,9 @@ import com.training.db.dao.AnlageDAO;
 import com.training.db.dao.AnlageJDBCDAO;
 import com.training.db.util.DAOException;
 import com.training.model.Anlage;
+import com.training.model.Mitarbeiter;
 import com.training.model.Produkt;
+import com.training.model.Standort;
 
 public class AnlageService {
 
@@ -102,6 +104,29 @@ public class AnlageService {
 		return data;
 	}
 
+	public List<Anlage> findAnlagenWithStandortWithAbteilungWithMitarbeiter() {
+		anlageDAO.openCurrentSession();
+		List<Anlage> data = null;
+		try {
+			data = anlageDAO.getAll();
+
+			for (Anlage anl : data) {
+				Hibernate.initialize(anl.getStandort());
+				Hibernate.initialize(anl.getMitarbeiter());
+
+				for (Mitarbeiter m : anl.getMitarbeiter())
+					Hibernate.initialize(m.getAbteilung());
+
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			anlageDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
 	public List<Anlage> findAnlagenFromStandort(String standort) {
 		anlageDAO.openCurrentSession();
 		List<Anlage> data = null;
@@ -110,7 +135,7 @@ public class AnlageService {
 
 			for (Anlage anl : data)
 				Hibernate.initialize(anl.getStandort());
-			
+
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,6 +150,31 @@ public class AnlageService {
 		List<Anlage> data = null;
 		try {
 			data = anlageDAO.getAll();
+
+			for (Anlage anl : data) {
+				Hibernate.initialize(anl.getProdukte());
+
+				for (Produkt prod : anl.getProdukte()) {
+					Hibernate.initialize(prod.getKategorie());
+					Hibernate.initialize(prod.getHersteller().getHerstellerProdukte());
+
+				}
+
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			anlageDAO.closeCurrentSession();
+		}
+		return data;
+	}
+
+	public List<Anlage> findAnlagenWithProdukteWithHerstellerWithKategorieFromStandort(String standort) {
+		anlageDAO.openCurrentSession();
+		List<Anlage> data = null;
+		try {
+			data = anlageDAO.getAnlagenFromStandort(standort);
 
 			for (Anlage anl : data) {
 				Hibernate.initialize(anl.getProdukte());

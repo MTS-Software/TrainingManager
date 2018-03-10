@@ -258,7 +258,7 @@ public class Main extends Application {
 
 	}
 
-	public void showSchulungOverviewDialog() {
+	public void showSchulungOverviewDialog(String standort) {
 
 		try {
 
@@ -280,7 +280,7 @@ public class Main extends Application {
 
 			SchulungOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 
@@ -323,7 +323,7 @@ public class Main extends Application {
 
 	}
 
-	public void showAnlageMitarbeiterOverviewDialog() {
+	public void showAnlageMitarbeiterOverviewDialog(String standort) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -344,7 +344,7 @@ public class Main extends Application {
 
 			AnlageMitarbeiterOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 
@@ -355,7 +355,7 @@ public class Main extends Application {
 
 	}
 
-	public void showeMitarbeiterAnlageOverviewDialog() {
+	public void showeMitarbeiterAnlageOverviewDialog(String standort) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -376,7 +376,7 @@ public class Main extends Application {
 
 			MitarbeiterAnlageOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 
@@ -483,7 +483,7 @@ public class Main extends Application {
 
 	}
 
-	public void showAnlageProdukteOverviewDialog() {
+	public void showAnlageProdukteOverviewDialog(String standort) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -504,7 +504,7 @@ public class Main extends Application {
 
 			AnlageProduktOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData();
+			controller.setData(standort);
 
 			dialogStage.showAndWait();
 
@@ -579,7 +579,7 @@ public class Main extends Application {
 
 	}
 
-	public void showSchulungStatusKontrolleOverviewDialog(Status status) {
+	public void showSchulungStatusKontrolleOverviewDialog(String standort, Status status) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -600,7 +600,7 @@ public class Main extends Application {
 
 			SchulungOverviewController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.setData(status);
+			controller.setData(standort, status);
 
 			dialogStage.showAndWait();
 

@@ -72,7 +72,7 @@ public class MitarbeiterMitAnlagenSchulungOverviewController {
 		searchButton.setDisable(true);
 
 		ObservableList<Anlage> standorte = FXCollections
-				.observableArrayList(Service.getInstance().getAnlageService().findAll());
+				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithStandort());
 		anlageComboBox.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -198,12 +198,11 @@ public class MitarbeiterMitAnlagenSchulungOverviewController {
 
 	}
 
-
 	private List<Mitarbeiter> generateData() {
 
 		List<Mitarbeiter> mitarbeiter = new ArrayList<>();
 
-		for (Anlage anl : Service.getInstance().getAnlageService().findAll()) {
+		for (Anlage anl : Service.getInstance().getAnlageService().findAnlagenWithStandortWithAbteilungWithMitarbeiter()) {
 
 			if (anl.getId() == anlageComboBox.getSelectionModel().getSelectedItem().getId())
 				mitarbeiter = anl.getMitarbeiter();

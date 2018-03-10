@@ -61,6 +61,8 @@ public class SchulungDataController {
 	private ObservableList<Level> level;
 	private ObservableList<Produkt> produkte;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -97,15 +99,16 @@ public class SchulungDataController {
 			}
 		});
 
-		mitarbeiter = FXCollections.observableArrayList(Service.getInstance().getMitarbeiterService().findAll());
 		status = FXCollections.observableArrayList(Service.getInstance().getStatusService().findAll());
 		level = FXCollections.observableArrayList(Service.getInstance().getLevelService().findAll());
-		produkte = FXCollections.observableArrayList(Service.getInstance().getProduktService().findProdukteWithHersteller());
+		produkte = FXCollections
+				.observableArrayList(Service.getInstance().getProduktService().findProdukteWithHersteller());
 
 	}
 
-	public void setData(Schulung data) {
+	public void setData(String standort, Schulung data) {
 
+		this.standort = standort;
 		this.data = data;
 
 		if (data != null) {
@@ -128,8 +131,8 @@ public class SchulungDataController {
 			} else
 				endDateField.setValue(null);
 
-			// ObservableList<Mitarbeiter> mitarbeiter = FXCollections
-			// .observableArrayList(Service.getInstance().getMitarbeiterService().findAll());
+			ObservableList<Mitarbeiter> mitarbeiter = FXCollections.observableArrayList(
+					Service.getInstance().getMitarbeiterService().findMitarbeiterFromStandortWithAbteilung(standort));
 			mitarbeiterComboBox.setItems(mitarbeiter);
 			mitarbeiterComboBox.setConverter(new StringConverter<Mitarbeiter>() {
 
@@ -201,12 +204,11 @@ public class SchulungDataController {
 
 			});
 			produktComboBox.getSelectionModel().select(data.getProdukt());
-			
+
 			if (produktComboBox.getSelectionModel().getSelectedItem() != null)
 				noProduktSelectionButton.setVisible(true);
 			else
 				noProduktSelectionButton.setVisible(false);
-
 
 		} else {
 

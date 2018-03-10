@@ -33,11 +33,11 @@ public class SchulungEditController {
 
 	}
 
-	public void setData(Schulung data) {
+	public void setData(String standort, Schulung data) {
 
 		this.data = data;
 
-		schulungDataController.setData(data);
+		schulungDataController.setData(standort, data);
 		schulungDataController.setDialogStage(dialogStage);
 
 	}

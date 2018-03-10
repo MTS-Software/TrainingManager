@@ -40,6 +40,8 @@ public class AnlageProduktOverviewController {
 
 	private Stage dialogStage;
 
+	private String standort;
+
 	@FXML
 	private void initialize() {
 
@@ -64,10 +66,12 @@ public class AnlageProduktOverviewController {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
-	public void setData() {
+	public void setData(String standort) {
 
-		ObservableList<Anlage> data = FXCollections
-				.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithProdukteWithHerstellerWithKategorie());
+		this.standort = standort;
+
+		ObservableList<Anlage> data = FXCollections.observableArrayList(Service.getInstance().getAnlageService()
+				.findAnlagenWithProdukteWithHerstellerWithKategorieFromStandort(standort));
 		table.setItems(data);
 
 	}
@@ -118,7 +122,7 @@ public class AnlageProduktOverviewController {
 
 		boolean okClicked = showEditDialog(data);
 		if (okClicked) {
-			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAnlageService().findAll()));
+			table.setItems(FXCollections.observableArrayList(Service.getInstance().getAnlageService().findAnlagenWithProdukteWithHerstellerWithKategorieFromStandort(standort)));
 			table.refresh();
 			showDetails(null);
 		}
@@ -144,7 +148,7 @@ public class AnlageProduktOverviewController {
 	private void handleRefresh(KeyEvent event) {
 
 		if (event.getCode() == KeyCode.F5) {
-			setData();
+			setData(standort);
 		}
 
 	}
