@@ -705,7 +705,7 @@ public class Main extends Application {
 		appInfo = new Label("");
 
 		sb.append(resources.getString("appname"));
-		sb.append(" (Version 1.0");
+		sb.append(" (Version 1.0)");
 
 		appInfo.setFont(Font.font("System", FontWeight.BOLD, 11));
 		appInfo.setTextFill(Color.DARKGREY);
