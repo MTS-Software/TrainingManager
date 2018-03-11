@@ -92,12 +92,10 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 
-		if (ip != null) {
+		if (args != null) {
 
-			ApplicationProperties.getInstance().edit("db_host", ip);
-
-			threadSplashSleepTime = 0;
-			fadeTransitionsTime = 0.0;
+			// threadSplashSleepTime = 0;
+			// fadeTransitionsTime = 0.0;
 			showSplashScreen = true;
 
 		}
@@ -110,8 +108,6 @@ public class Main extends Application {
 	public void start(Stage initStage) {
 
 		this.primaryStage = new Stage();
-
-		PropertyConfigurator.configure(getClass().getClassLoader().getResource("log4j.properties"));
 
 		final Task<Integer> modulTask = new Task<Integer>() {
 			@Override
@@ -126,14 +122,10 @@ public class Main extends Application {
 
 				if (actProgress == 1) {
 					updateProgress(actProgress, maxProgress);
-					updateMessage(
-							actProgress + " von " + maxProgress + ": " + "Initialisiere Programmeinstellungen. . .");
+					updateMessage(actProgress + " von " + maxProgress + ": "
+							+ "Initialisiere Einstellungen, Datenbank . . .");
 
-					String userHome = System.getProperty("user.home");
-
-					ApplicationProperties.configure("application.properties",
-							userHome + File.separator + resources.getString("appname"), "application.properties");
-					ApplicationProperties.getInstance().setup();
+					initProperties();
 
 					Thread.sleep(threadSplashSleepTime);
 					actProgress++;
@@ -141,24 +133,10 @@ public class Main extends Application {
 
 				if (actProgress == 2) {
 					updateProgress(actProgress, maxProgress);
-					updateMessage(actProgress + " von " + maxProgress + ": "
-							+ "Initialisiere Visualisierung, Datenbank, Schnittstellen. . .");
+					updateMessage(
+							actProgress + " von " + maxProgress + ": " + "Initialisiere Benutzeroberfläche . . .");
 
-					HibernateUtil.getSessionFactory();
-
-					primaryStage.setTitle(resources.getString("appname") + " Build " + BUILD.replace("$", " "));
-					primaryStage.setMaximized(true);
-					primaryStage.getIcons()
-							.add(new Image(getClass().getClassLoader().getResourceAsStream(Main.APP_ICON)));
-					primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-						@Override
-						public void handle(WindowEvent event) {
-
-							Platform.exit();
-							System.exit(0);
-
-						}
-					});
+					initGraphics();
 
 					Thread.sleep(threadSplashSleepTime);
 					actProgress++;
@@ -170,6 +148,37 @@ public class Main extends Application {
 
 		showSplash(initStage, modulTask, () -> initRootLayout());
 		new Thread(modulTask).start();
+
+	}
+
+	private void initProperties() {
+
+		PropertyConfigurator.configure(getClass().getClassLoader().getResource("log4j.properties"));
+
+		String userHome = System.getProperty("user.home");
+
+		ApplicationProperties.configure("application.properties",
+				userHome + File.separator + resources.getString("appname"), "application.properties");
+		ApplicationProperties.getInstance().setup();
+
+		HibernateUtil.getSessionFactory();
+
+	}
+
+	private void initGraphics() {
+
+		primaryStage.setTitle(resources.getString("appname") + " Build " + BUILD.replace("$", " "));
+		primaryStage.setMaximized(true);
+		primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream(Main.APP_ICON)));
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+
+				Platform.exit();
+				System.exit(0);
+
+			}
+		});
 
 	}
 
@@ -707,7 +716,7 @@ public class Main extends Application {
 		sb.append(resources.getString("appname"));
 		sb.append(" (Version 1.0)");
 
-		appInfo.setFont(Font.font("System", FontWeight.BOLD, 11));
+		appInfo.setFont(Font.font("System", FontWeight.BOLD, 15));
 		appInfo.setTextFill(Color.DARKGREY);
 		appInfo.setText(sb.toString().replace("$", ""));
 
@@ -725,8 +734,10 @@ public class Main extends Application {
 	}
 
 	private void showSplash(final Stage initStage, Task<?> task, InitCompletionHandler initCompletionHandler) {
+
 		progressText.textProperty().bind(task.messageProperty());
 		loadProgress.progressProperty().bind(task.progressProperty());
+
 		task.stateProperty().addListener((observableValue, oldState, newState) -> {
 			if (newState == Worker.State.SUCCEEDED) {
 				loadProgress.progressProperty().unbind();
@@ -755,7 +766,6 @@ public class Main extends Application {
 		initStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				logger.info("Programm beenden");
 
 				Platform.exit();
 				System.exit(0);
