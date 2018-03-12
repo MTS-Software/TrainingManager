@@ -84,7 +84,7 @@ public class AnlageJDBCDAO implements AnlageDAO {
 			List<Anlage> data = currentSession
 					.createNativeQuery("SELECT * " + "FROM anlage WHERE anlage.id IN "
 							+ "(SELECT anlage.id FROM anlage, standort "
-							+ "WHERE anlage.standort_id = standort.id and standort.name like '" + standort + "')")
+							+ "WHERE anlage.standort_id = standort.id and standort.name like '" + standort + "')  ORDER BY anlage.name ASC")
 					.addEntity(Anlage.class).list();
 
 			return data;
