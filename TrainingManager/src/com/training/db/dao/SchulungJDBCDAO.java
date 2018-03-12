@@ -84,7 +84,7 @@ public class SchulungJDBCDAO implements SchulungDAO {
 					.createNativeQuery("SELECT * " + "FROM schulung WHERE schulung.mitarbeiter_id IN "
 							+ "(SELECT mitarbeiter.id FROM mitarbeiter WHERE mitarbeiter.abteilung_id IN "
 							+ "(SELECT abteilung.id FROM abteilung, standort "
-							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "'))")
+							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "'))  ORDER BY schulung.end DESC")
 					.addEntity(Schulung.class).list();
 
 			return data;

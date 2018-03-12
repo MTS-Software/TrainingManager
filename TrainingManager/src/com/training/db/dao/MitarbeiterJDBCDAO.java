@@ -105,7 +105,7 @@ public class MitarbeiterJDBCDAO implements MitarbeiterDAO {
 			List<Mitarbeiter> data = currentSession
 					.createNativeQuery("SELECT * " + "FROM mitarbeiter WHERE mitarbeiter.abteilung_id IN "
 							+ "(SELECT abteilung.id FROM abteilung, standort "
-							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "')")
+							+ "WHERE abteilung.standort_id = standort.id and standort.name like '" + standort + "') ORDER BY mitarbeiter.nachname ASC")
 					.addEntity(Mitarbeiter.class).list();
 
 			return data;

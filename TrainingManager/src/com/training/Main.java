@@ -57,13 +57,7 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 
-	// Revisionhistory
-	// Muss manuell verändert werden
-	public final static String VERSION = "$Version: 1.0$";
-
-	// Wird automatisch von SVN beschrieben
-	public final static String BUILD = "$Rev: 135 $";
-	public final static String DATE = "$Date: 2018-02-13 09:23:13 +0100 (Di, 13 Feb 2018) $";
+	public final static String VERSION = "1.0";
 
 	// Java Entwicklungsversion
 	public final static String JDK = "1.8.0_152";
@@ -168,7 +162,8 @@ public class Main extends Application {
 
 	private void initGraphics() {
 
-		primaryStage.setTitle(resources.getString("appname") + " Build " + BUILD.replace("$", " "));
+		primaryStage.setTitle(
+				resources.getString("appname") + "@" + ApplicationProperties.getInstance().getProperty("db_host"));
 		primaryStage.setMaximized(true);
 		primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream(Main.APP_ICON)));
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -706,7 +701,7 @@ public class Main extends Application {
 		ImageView splash = new ImageView(new Image(SPLASH_IMAGE));
 
 		loadProgress = new ProgressBar();
-		loadProgress.setPrefWidth(Constants.SPLASH_WIDTH - 20);
+		loadProgress.setPrefWidth(Constants.SPLASH_WIDTH - 0);
 
 		progressText = new Label("");
 		progressText.setAlignment(Pos.CENTER);
@@ -755,7 +750,7 @@ public class Main extends Application {
 		});
 
 		Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
-		final Rectangle2D bounds = Screen.getPrimary().getBounds();
+		final Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
 		initStage.setScene(splashScene);
 		initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - Constants.SPLASH_WIDTH / 2);
 		initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - Constants.SPLASH_HEIGHT / 2);
