@@ -19,7 +19,7 @@ import com.training.model.Schulung;
 import com.training.model.Standort;
 import com.training.model.Status;
 
-public class HibernateUtil2 {
+public class HibernateUtilProperties {
 
 	private static StandardServiceRegistry registry;
 	private static SessionFactory sessionFactory;

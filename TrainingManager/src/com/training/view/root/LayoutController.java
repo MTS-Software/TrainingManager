@@ -51,7 +51,7 @@ public class LayoutController implements Initializable {
 
 		this.resources = resources;
 
-		initNewTree();
+		initTree();
 		// initTreeView();
 
 		showHomeScreen();
@@ -112,7 +112,7 @@ public class LayoutController implements Initializable {
 
 	}
 
-	private void initNewTree() {
+	private void initTree() {
 
 		ImageView imageView;
 		int imageSize = 18;
@@ -152,6 +152,18 @@ public class LayoutController implements Initializable {
 		itemStandorte.setGraphic(imageView);
 		itemStammdaten.getChildren().add(itemStandorte);
 
+		// Stammdaten - Schulungen
+		TreeItem<Object> itemSchulungen = new TreeItem<>("Schulungen");
+		itemSchulungen.setExpanded(false);
+
+		imageView = new ImageView(
+				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/course48.png")));
+		imageView.setFitHeight(imageSize);
+		imageView.setFitWidth(imageSize);
+
+		itemSchulungen.setGraphic(imageView);
+		itemStammdaten.getChildren().add(itemSchulungen);
+
 		// Stammdaten - Level
 		TreeItem<Object> itemLevel = new TreeItem<>("Level");
 		itemLevel.setExpanded(false);
@@ -162,7 +174,7 @@ public class LayoutController implements Initializable {
 		imageView.setFitWidth(imageSize);
 
 		itemLevel.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemLevel);
+		itemSchulungen.getChildren().add(itemLevel);
 
 		// Stammdaten - Status
 		TreeItem<Object> itemStatus = new TreeItem<>("Status");
@@ -174,19 +186,7 @@ public class LayoutController implements Initializable {
 		imageView.setFitWidth(imageSize);
 
 		itemStatus.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemStatus);
-
-		// Stammdaten - Kategorien
-		TreeItem<Object> itemKategorien = new TreeItem<>("Kategorien");
-		itemKategorien.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/level48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemKategorien.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemKategorien);
+		itemSchulungen.getChildren().add(itemStatus);
 
 		// Stammdaten - Produkte
 		TreeItem<Object> itemProdukte = new TreeItem<>("Produkte");
@@ -200,6 +200,18 @@ public class LayoutController implements Initializable {
 		itemProdukte.setGraphic(imageView);
 		itemStammdaten.getChildren().add(itemProdukte);
 
+		// Stammdaten - Kategorien
+		TreeItem<Object> itemKategorien = new TreeItem<>("Kategorien");
+		itemKategorien.setExpanded(false);
+
+		imageView = new ImageView(
+				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/level48.png")));
+		imageView.setFitHeight(imageSize);
+		imageView.setFitWidth(imageSize);
+
+		itemKategorien.setGraphic(imageView);
+		itemProdukte.getChildren().add(itemKategorien);
+
 		// Stammdaten - Hersteller
 		TreeItem<Object> itemHersteller = new TreeItem<>("Hersteller");
 		itemHersteller.setExpanded(false);
@@ -210,7 +222,19 @@ public class LayoutController implements Initializable {
 		imageView.setFitWidth(imageSize);
 
 		itemHersteller.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemHersteller);
+		itemProdukte.getChildren().add(itemHersteller);
+
+		// Stammdaten - Produkte
+		TreeItem<Object> itemProd = new TreeItem<>("Produkte");
+		itemProd.setExpanded(false);
+
+		imageView = new ImageView(new Image(
+				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/technology48.png")));
+		imageView.setFitHeight(imageSize);
+		imageView.setFitWidth(imageSize);
+
+		itemProd.setGraphic(imageView);
+		itemProdukte.getChildren().add(itemProd);
 
 		initStandorteTree();
 
@@ -284,6 +308,7 @@ public class LayoutController implements Initializable {
 			}
 		};
 		treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent);
+
 	}
 
 	private void initStandorteTree() {
@@ -316,13 +341,13 @@ public class LayoutController implements Initializable {
 			item.setGraphic(imageView);
 			itemStandorte.getChildren().add(item);
 
-			initEveryStandortTree(item);
+			initStandortTree(item);
 
 		}
 
 	}
 
-	private void initEveryStandortTree(TreeItem<Object> parentTreeItem) {
+	private void initStandortTree(TreeItem<Object> parentTreeItem) {
 
 		ImageView imageView;
 		int imageSize = 18;
@@ -413,7 +438,7 @@ public class LayoutController implements Initializable {
 		parentTreeItem.getChildren().add(itemSchulungen);
 
 		// Schulungen - Produkte
-		TreeItem<Object> itemSchulungenVerwaltung = new TreeItem<>("Produkte");
+		TreeItem<Object> itemSchulungenVerwaltung = new TreeItem<>("Allgemein");
 		itemSchulungenVerwaltung.setExpanded(false);
 
 		imageView = new ImageView(
@@ -451,325 +476,39 @@ public class LayoutController implements Initializable {
 
 	}
 
-	private void initTreeView() {
-
-		ImageView imageView;
-		int imageSize = 18;
-
-		// Root
-		root = new TreeItem<>("TrainingManager");
-		root.setExpanded(true);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/book48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		root.setGraphic(imageView);
-
-		// Stammdaten
-		TreeItem<Object> itemStammdaten = new TreeItem<>("Stammdaten");
-		itemStammdaten.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/data48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemStammdaten.setGraphic(imageView);
-		root.getChildren().add(itemStammdaten);
-
-		// Stammdaten - Abteilungen
-		TreeItem<Object> itemAbteilungen = new TreeItem<>("Abteilungen");
-		itemAbteilungen.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/department48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemAbteilungen.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemAbteilungen);
-
-		// Stammdaten - Standorte
-		TreeItem<Object> itemStandorte = new TreeItem<>("Standorte");
-		itemStandorte.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/map48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemStandorte.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemStandorte);
-
-		// Stammdaten - Mitarbeiter
-		TreeItem<Object> itemMitarbeiter = new TreeItem<>("Mitarbeiter");
-		itemMitarbeiter.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/person48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemMitarbeiter.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemMitarbeiter);
-
-		// Stammdaten - Level
-		TreeItem<Object> itemLevel = new TreeItem<>("Level");
-		itemLevel.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/level48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemLevel.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemLevel);
-
-		// Stammdaten - Status
-		TreeItem<Object> itemStatus = new TreeItem<>("Status");
-		itemStatus.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/status48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemStatus.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemStatus);
-
-		// Stammdaten - Anlagen
-		TreeItem<Object> itemAnlagen = new TreeItem<>("Anlagen");
-		itemAnlagen.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemAnlagen.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemAnlagen);
-
-		// Stammdaten - Kategorien
-		TreeItem<Object> itemKategorien = new TreeItem<>("Kategorien");
-		itemKategorien.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/level48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemKategorien.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemKategorien);
-
-		// Stammdaten - Produkte
-		TreeItem<Object> itemProdukte = new TreeItem<>("Produkte");
-		itemProdukte.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/technology48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemProdukte.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemProdukte);
-
-		// Stammdaten - Hersteller
-		TreeItem<Object> itemHersteller = new TreeItem<>("Hersteller");
-		itemHersteller.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/process48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemHersteller.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemHersteller);
-
-		// Stammdaten Anlagen - Produkte
-		TreeItem<Object> itemAnlagenProdukte = new TreeItem<>("Anlagen - Produkte");
-		itemAnlagenProdukte.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemAnlagenProdukte.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemAnlagenProdukte);
-
-		// Stammdaten Mitarbeiter - Anlagen
-		TreeItem<Object> itemMitarbeiterAnlagen = new TreeItem<>("Mitarbeiter - Anlagen");
-		itemMitarbeiterAnlagen.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemMitarbeiterAnlagen.setGraphic(imageView);
-		itemStammdaten.getChildren().add(itemMitarbeiterAnlagen);
-
-		// Schulungen
-		TreeItem<Object> itemSchulungen = new TreeItem<>("Schulungen");
-		itemSchulungen.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/course48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-		itemSchulungen.setGraphic(imageView);
-
-		root.getChildren().add(itemSchulungen);
-
-		// Schulungen - Produkte
-		TreeItem<Object> itemSchulungenVerwaltung = new TreeItem<>("Produkte");
-		itemSchulungenVerwaltung.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/book48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-		itemSchulungenVerwaltung.setGraphic(imageView);
-
-		itemSchulungen.getChildren().add(itemSchulungenVerwaltung);
-
-		// Schulungen Anlagen
-		TreeItem<Object> itemAnlagenMitarbeiterTechnologien = new TreeItem<>("Anlagen");
-		itemAnlagenMitarbeiterTechnologien.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-
-		itemAnlagenMitarbeiterTechnologien.setGraphic(imageView);
-		itemSchulungen.getChildren().add(itemAnlagenMitarbeiterTechnologien);
-
-		// Schulungen - Status
-		TreeItem<Object> itemSchulungenStatus = new TreeItem<>("Statuskontrolle");
-		itemSchulungenStatus.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/status48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-		itemSchulungenStatus.setGraphic(imageView);
-
-		itemSchulungen.getChildren().add(itemSchulungenStatus);
-
-		// Auswertungen
-		TreeItem<Object> itemAuswertungen = new TreeItem<>("Auswertungen");
-		itemAuswertungen.setExpanded(false);
-
-		imageView = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/chart48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-		itemAuswertungen.setGraphic(imageView);
-
-		root.getChildren().add(itemAuswertungen);
-
-		// Auswertungen - Fehlende Schulungen
-		TreeItem<Object> itemNoTrainings = new TreeItem<>("Fehlende Produkt - Schulungen");
-		itemNoTrainings.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-		itemNoTrainings.setGraphic(imageView);
-
-		itemAuswertungen.getChildren().add(itemNoTrainings);
-
-		// Auswertungen - MitarbeiterMitAnlagenSchulung
-		TreeItem<Object> itemMitarbeiterMitAnlagenSchulung = new TreeItem<>("Geschulte Anlagen - Mitarbeiter");
-		itemMitarbeiterMitAnlagenSchulung.setExpanded(false);
-
-		imageView = new ImageView(new Image(
-				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
-		imageView.setFitHeight(imageSize);
-		imageView.setFitWidth(imageSize);
-		itemMitarbeiterMitAnlagenSchulung.setGraphic(imageView);
-
-		itemAuswertungen.getChildren().add(itemMitarbeiterMitAnlagenSchulung);
-
-		try {
-			for (Status status : Service.getInstance().getStatusService().findAll()) {
-
-				TreeItem<Object> itemSchulungStatus = new TreeItem<>(status);
-				itemSchulungStatus.setExpanded(false);
-				itemSchulungenStatus.getChildren().add(itemSchulungStatus);
-
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		treeView.setRoot(root);
-
-		EventHandler<MouseEvent> mouseEvent = new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-
-				if (event.getButton() == MouseButton.PRIMARY) {
-
-					if (event.getClickCount() == 2) {
-
-						TreeItem<Object> selectedItem = treeView.getSelectionModel().getSelectedItem();
-
-						if (selectedItem != null) {
-
-							if (selectedItem.getValue() instanceof String) {
-								selectTreeItem(selectedItem);
-
-							}
-
-							if (selectedItem.getValue() instanceof Status) {
-
-								Status status = (Status) selectedItem.getValue();
-								main.showSchulungStatusKontrolleOverviewDialog(
-										selectedItem.getParent().getParent().getValue().toString(), status);
-							}
-
-						}
-					}
-				}
-
-			}
-		};
-		treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent);
-
-		/*
-		 * EventHandler<KeyEvent> keyEvent = new EventHandler<KeyEvent>() {
-		 * 
-		 * @Override public void handle(KeyEvent event) {
-		 * 
-		 * if (event.getCode() == KeyCode.ENTER) {
-		 * 
-		 * TreeItem<Object> selectedItem =
-		 * treeView.getSelectionModel().getSelectedItem();
-		 * 
-		 * if (selectedItem.getValue() instanceof String) {
-		 * selectTreeItem(selectedItem); }
-		 * 
-		 * }
-		 * 
-		 * } };
-		 */
-
-		// treeView.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent);
-
-	}
-
 	private void selectTreeItem(TreeItem<Object> selectedItem) {
 
 		if (selectedItem.getValue().toString().equalsIgnoreCase(resources.getString("appname"))) {
 
 			showHomeScreen();
+
+		}
+
+		if (selectedItem.getParent().getValue().toString().equalsIgnoreCase("Schulungen")) {
+
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Level")) {
+				main.showLevelOverviewDialog();
+			}
+
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Status")) {
+				main.showStatusOverviewDialog();
+			}
+
+		}
+
+		if (selectedItem.getParent().getValue().toString().equalsIgnoreCase("Produkte")) {
+
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Kategorien")) {
+				main.showKategorieOverviewDialog();
+
+			}
+
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Produkte")) {
+				main.showProduktOverviewDialog();
+			}
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Hersteller")) {
+				main.showHerstellerOverviewDialog();
+			}
 
 		}
 
@@ -789,26 +528,6 @@ public class LayoutController implements Initializable {
 				main.showStandortOverviewDialog();
 			}
 
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Level")) {
-				main.showLevelOverviewDialog();
-			}
-
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Status")) {
-				main.showStatusOverviewDialog();
-			}
-
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Kategorien")) {
-				main.showKategorieOverviewDialog();
-
-			}
-
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Produkte")) {
-				main.showProduktOverviewDialog();
-			}
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Hersteller")) {
-				main.showHerstellerOverviewDialog();
-			}
-
 			if (selectedItem.getValue().toString().equalsIgnoreCase("Anlagen")) {
 				main.showAnlageOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 			}
@@ -824,7 +543,7 @@ public class LayoutController implements Initializable {
 		}
 
 		if (selectedItem.getParent().getValue().toString().equalsIgnoreCase("Schulungen")) {
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Produkte")) {
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Allgemein")) {
 				main.showSchulungOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 			}
 

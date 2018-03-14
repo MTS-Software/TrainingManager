@@ -5,11 +5,12 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane onKeyPressed="#handleUpdateKeyEvent" prefHeight="720.0" prefWidth="1280.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.training.view.root.LayoutController">
+<BorderPane onKeyPressed="#handleUpdateKeyEvent" prefHeight="720.0" prefWidth="1280.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.training.view.root.LayoutController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -25,7 +26,10 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#handleSettings" text="Einstellungen">
                      <graphic>
-                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resource/icons/config48.png" />
+                           </image></ImageView>
                      </graphic></MenuItem>
               </items>
             </Menu>
@@ -33,7 +37,10 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#handleUpdateMenuItem" text="Aktualisieren">
                      <graphic>
-                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resource/icons/refresh_48.png" />
+                           </image></ImageView>
                      </graphic></MenuItem>
               </items>
             </Menu>
