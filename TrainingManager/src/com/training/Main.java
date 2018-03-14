@@ -63,6 +63,7 @@ public class Main extends Application {
 	public final static String JDK = "1.8.0_152";
 
 	private static final Logger logger = Logger.getLogger(Main.class);
+	
 	private ResourceBundle resources = ResourceBundle.getBundle("language");
 
 	// Splash
