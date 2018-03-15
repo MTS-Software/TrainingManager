@@ -63,7 +63,7 @@ public class Main extends Application {
 	public final static String JDK = "1.8.0_152";
 
 	private static final Logger logger = Logger.getLogger(Main.class);
-	
+
 	private ResourceBundle resources = ResourceBundle.getBundle("language");
 
 	// Splash
@@ -83,16 +83,15 @@ public class Main extends Application {
 
 	private Stage primaryStage;
 
-	
 	private BorderPane rootLayout;
 
 	public static void main(String[] args) {
 
-		if (args != null) {
-
+		if (args.length == 1) {
+			ip = args[0];
 			// threadSplashSleepTime = 0;
 			// fadeTransitionsTime = 0.0;
-			showSplashScreen = true;
+			// showSplashScreen = true;
 
 		}
 
@@ -156,6 +155,11 @@ public class Main extends Application {
 		ApplicationProperties.configure("application.properties",
 				userHome + File.separator + resources.getString("appname"), "application.properties");
 		ApplicationProperties.getInstance().setup();
+
+		if (ip != null) {
+			ApplicationProperties.getInstance().edit("db_host", ip);
+
+		}
 
 		HibernateUtil.getSessionFactory();
 
