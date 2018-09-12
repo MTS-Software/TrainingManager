@@ -1,4 +1,4 @@
-package com.training.view.schulung;
+package com.training.view.schulung.produkt;
 
 import java.io.IOException;
 import java.util.ResourceBundle;

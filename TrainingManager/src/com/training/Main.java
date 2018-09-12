@@ -23,7 +23,7 @@ import com.training.view.mitarbeiteranlage.MitarbeiterAnlageOverviewController;
 import com.training.view.produkt.ProduktOverviewController;
 import com.training.view.root.LayoutController;
 import com.training.view.root.SettingsController;
-import com.training.view.schulung.SchulungOverviewController;
+import com.training.view.schulung.produkt.SchulungOverviewController;
 import com.training.view.standort.StandortOverviewController;
 import com.training.view.status.StatusOverviewController;
 

@@ -1,4 +1,4 @@
-package com.training.view.schulung;
+package com.training.view.schulung.produkt;
 
 import java.time.ZoneOffset;
 import java.util.Date;

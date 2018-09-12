@@ -438,28 +438,28 @@ public class LayoutController implements Initializable {
 		parentTreeItem.getChildren().add(itemSchulungen);
 
 		// Schulungen - Produkte
-		TreeItem<Object> itemSchulungenVerwaltung = new TreeItem<>("Allgemein");
-		itemSchulungenVerwaltung.setExpanded(false);
+		TreeItem<Object> itemSchulungenProdukte = new TreeItem<>("Produkte");
+		itemSchulungenProdukte.setExpanded(false);
 
 		imageView = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/book48.png")));
 		imageView.setFitHeight(imageSize);
 		imageView.setFitWidth(imageSize);
-		itemSchulungenVerwaltung.setGraphic(imageView);
+		itemSchulungenProdukte.setGraphic(imageView);
 
-		itemSchulungen.getChildren().add(itemSchulungenVerwaltung);
+		itemSchulungen.getChildren().add(itemSchulungenProdukte);
 
-		// Schulungen Anlagen
-		TreeItem<Object> itemAnlagenMitarbeiterTechnologien = new TreeItem<>("Anlagen");
-		itemAnlagenMitarbeiterTechnologien.setExpanded(false);
+		// Schulungen Equipment
+		TreeItem<Object> itemSchulungenEquipment = new TreeItem<>("Equipment");
+		itemSchulungenEquipment.setExpanded(false);
 
 		imageView = new ImageView(new Image(
 				getClass().getClassLoader().getResourceAsStream("com/training/resource/icons/machine48.png")));
 		imageView.setFitHeight(imageSize);
 		imageView.setFitWidth(imageSize);
 
-		itemAnlagenMitarbeiterTechnologien.setGraphic(imageView);
-		itemSchulungen.getChildren().add(itemAnlagenMitarbeiterTechnologien);
+		itemSchulungenEquipment.setGraphic(imageView);
+		itemSchulungen.getChildren().add(itemSchulungenEquipment);
 
 		// Schulungen - Status
 		// TreeItem<Object> itemSchulungenStatus = new TreeItem<>("Statuskontrolle");
@@ -543,11 +543,11 @@ public class LayoutController implements Initializable {
 		}
 
 		if (selectedItem.getParent().getValue().toString().equalsIgnoreCase("Schulungen")) {
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Allgemein")) {
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Produkte")) {
 				main.showSchulungOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 			}
 
-			if (selectedItem.getValue().toString().equalsIgnoreCase("Anlagen")) {
+			if (selectedItem.getValue().toString().equalsIgnoreCase("Equipment")) {
 				main.showAnlageMitarbeiterOverviewDialog(selectedItem.getParent().getParent().getValue().toString());
 			}
 

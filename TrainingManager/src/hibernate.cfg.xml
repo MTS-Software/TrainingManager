@@ -20,6 +20,7 @@
 		<mapping class="com.training.model.Anlage" />
 		<mapping class="com.training.model.Hersteller" />
 		<mapping class="com.training.model.Kategorie" />
+		<mapping class="com.training.model.EquipmentSchulung" />
 	</session-factory>
 </hibernate-configuration>
 
